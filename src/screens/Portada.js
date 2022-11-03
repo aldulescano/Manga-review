@@ -21,6 +21,7 @@ class Portada extends Component {
                 />
                 <Text onPress={ () => this.props.navigation.navigate ('Registro')} style={styles.link}>Registrate</Text>
                 <Text onPress={ () => this.props.navigation.navigate ('Inicio')} style={styles.link}>Inicia Sesión</Text>
+                <Text onPress={ () => this.props.navigation.navigate ('Perfil')} style={styles.link}>Perfil</Text>
 
             </View>
         )
