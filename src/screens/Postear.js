@@ -1,4 +1,7 @@
 import React, {Component} from 'react';
+import {auth, db} from '../firebase/config';
+import Camara from '../components/Camara';
+
 import {View, Text, StyleSheet, TextInput, TouchableOpacity, Image} from 'react-native';
 
 class Postear extends Component {
@@ -6,18 +9,17 @@ class Postear extends Component {
         super()
         this.state = {
             foto: '',
-            textoD: '',
-          
+            Descripcion: '',
+            createdAt:'',
+            mostrarCamara: true,
         }
     }
 
 
-    Postear(email,  imagen, Descripcion, likes, comentario  ){
-        auth.createUserWithEmailAndPassword(email, pass)
-            .then( res => {
-                
+    postear(textoD, foto){
+          
                 db.collection('posteos').add({
-                    emailUsuario:  email,
+                    emailCreador:  auth.currentUser.email,
                     imagen: foto,
                     Descripcion: textoD,
                     likes: '',
@@ -26,7 +28,6 @@ class Postear extends Component {
                 })
                 .then(() => {
                     this.setState({
-                        foto: '',
                         textoD: '',
                                     
                     })
@@ -35,8 +36,7 @@ class Postear extends Component {
                 })
                 .catch(err => console.log(err))    
                 
-            })
-            .catch(err => console.log(err))
+           
     }
     render(){
         return(
@@ -49,31 +49,27 @@ class Postear extends Component {
                 />
 
                 <Text style={styles.titulo}>Haz un post!</Text>
-
-                <View style={styles.form}>
-                      
-                    <TextInput 
-                        placeholder= 'Foto'
-                        keyboardType= 'default'
-                        onChangeText={ texto => this.setState({foto : texto})}
-                        value = {this.state.foto}
-                        style={styles.campo}
-                    />       
-
-                    <TextInput 
-                        placeholder= 'Descripcion'
-                        keyboardType= 'default'
-                        onChangeText={ texto => this.setState({textoD : texto})}
-                        value = {this.state.bio}
-                        style={styles.campo}
-                    />  
+                {
+                this.state.mostrarCamara ?
+                <Camara/>
+                :
+                <View>
+                    <Text> Nuevo posteo form</Text>
+                    <View>
+                        <TextInput  
+                            placeholder='texto post'
+                            keyboardType='default'
+                            onChangeText={ text => this.setState({textoPost:text}) }
+                            value={this.state.textoPost}
+                        /> 
 
                     <TouchableOpacity onPress={ () => this.Postear ( this.state.textoD, this.state.foto)}>
                         <Text onPress={ () => this.props.navigation.navigate ('Principal')} style={styles.boton}>Postear</Text>
                     </TouchableOpacity>
 
                 </View>
-            </View>
+            </View>}
+        </View>
         )
     }
 }
@@ -126,4 +122,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default Postear;
+export default Postear;  
