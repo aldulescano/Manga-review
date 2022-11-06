@@ -8,7 +8,6 @@ import Inicio from './src/screens/Inicio';
 import Portada from './src/screens/Portada';
 import Principal from './src/screens/Principal';
 
-
 const Stack = createNativeStackNavigator();
 
 function App() {

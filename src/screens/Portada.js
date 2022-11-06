@@ -5,8 +5,8 @@ class Portada extends Component {
     constructor(){
         super()
         this.state = {
-            email: '',
-            contraseña: '',
+            email: "",
+            contraseña: "",
         }
     }
 

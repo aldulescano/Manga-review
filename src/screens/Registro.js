@@ -5,7 +5,6 @@ import {View, Text, StyleSheet, TextInput, TouchableOpacity, Image} from 'react-
 class Registro extends Component {
     constructor(){
         super()
-
         //Seteamos un state inicial cero para lograr los inputs vacios. Tambien creamos propiedad errors para el catch//
         this.state = {
             email: "",
@@ -13,14 +12,13 @@ class Registro extends Component {
             usuario: "",
             bio: "",
             foto: "",
-            errors: ""
+            errors: "",
         }
     }
 
 
 registrarUsuario(email,pass, userName, bio, foto){
     //Lo que queremos hacer es registrar en Firebase que damos de alta al usuario y si el registro sale bien entonces redireccionar a Login //
-
     //Hacemos uso de auth de firebase y aprovechamos el método createUserWithEmailAndPassword con los parámetros obligatorios que son email y pass//
     auth.createUserWithEmailAndPassword(email,pass)
         .then(res =>{
@@ -43,25 +41,22 @@ registrarUsuario(email,pass, userName, bio, foto){
                         errors: ""
                     })
                     //Redireccionamiento a login//
-                    this.props.navigation.navigate("Portada")
+                    this.props.navigation.navigate("Inicio")
                 })
                 .catch(error => console.log(error))    
         })
-        .catch(error => this.setState({
-            errors: Response.errors
+        .catch(error => 
+            this.setState({
+            errors: `Tienes un error: ${error.message}`
         })
         )}
 
     
 
-
-
-
-
     render(){
         return(
             <View style={styles.container}>
-                
+
                 <Image
                     style = {styles.icono}
                     source = {require('../../assets/iconoDefault.png')}
@@ -69,12 +64,20 @@ registrarUsuario(email,pass, userName, bio, foto){
                 />
 
                 <Text style={styles.titulo}>Regístrate</Text>
-
+                
+                
                 <View style={styles.form}>
+                <Text style={styles.errors}>{this.state.errors}</Text>
+
+
                     <TextInput 
                         placeholder= 'Email'
                         keyboardType= 'email-address'
-                        onChangeText={ texto => this.setState({email : texto})}
+                        onChangeText={ 
+                            texto => this.setState({
+                                email : texto
+                            })
+                        }
                         value = {this.state.email}
                         style={styles.campo}
                     />
@@ -108,11 +111,11 @@ registrarUsuario(email,pass, userName, bio, foto){
                         style={styles.campo}
                     />    
 
-
+            
 
 
             {
-                this.state.email =="" || this.state.contraseña =="" ? 
+                this.state.email =="" || this.state.contraseña =="" || this.state.usuario == "" ? 
                     <TouchableOpacity>
                         <Text style={styles.botonerror}>Registrarme</Text>
                     </TouchableOpacity>
@@ -121,7 +124,8 @@ registrarUsuario(email,pass, userName, bio, foto){
                         <Text style={styles.boton}>Registrarme</Text>
                     </TouchableOpacity>
             }
-                    <Text onPress={ () => this.props.navigation.navigate ("Portada")} style={styles.link}>¿Ya tienes una cuenta? Inicia Sesión</Text>
+                    <Text onPress={ () => this.props.navigation.navigate ("Inicio")} style={styles.link}>¿Ya tenés una cuenta? Inicia Sesión</Text>
+                    
                 </View>
             </View>
         
@@ -147,6 +151,12 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         padding: 15
     },
+    errors: {
+        fontFamily: 'Courier',
+        fontSize: 11,
+        margin: 10,
+        color: 'rgb(217,33,33)'
+    },
     campo: {
         backgroundColor: 'rgb(234,252,255)',
         fontFamily: 'Courier',
@@ -161,7 +171,7 @@ const styles = StyleSheet.create({
         fontFamily: 'Courier',
         fontSize: 14,
         margin: 10,
-        backgroundColor: 'rgb(0,21,247)',
+        backgroundColor: 'rgb(0,170,228)',
         borderRadius: 10,
         textAlign: 'center',
         padding: 5
@@ -188,3 +198,4 @@ const styles = StyleSheet.create({
 })
 
 export default Registro;
+
