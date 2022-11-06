@@ -15,7 +15,7 @@ function App() {
     <NavigationContainer>
       <Stack.Navigator>
       
-     
+    
         <Stack.Screen name='Portada' component={Portada} options= {{ headerShown : false}}/> 
           <Stack.Screen name='Principal' component={Principal} options= {{ headerShown : false}}/>
         <Stack.Screen name='Postear' component={Postear} options= {{ headerShown : false}}/>
