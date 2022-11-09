@@ -15,7 +15,7 @@ class Inicio extends Component {
     iniciarUsuario(email, pass){
         auth.signInWithEmailAndPassword(email, pass)
             .then( res => {
-                this.props.navigation.navigate('Principal')
+                this.props.navigation.navigate("Principal")
             })
             .catch(error => 
                 this.setState({
