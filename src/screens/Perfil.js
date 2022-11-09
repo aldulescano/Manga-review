@@ -1,16 +1,70 @@
-import React, {Component} from 'react';
-import {View, Text, StyleSheet, TextInput, TouchableOpacity, Image} from 'react-native';
+import React, {Component, useState} from 'react';
+import {View, Text, StyleSheet, Image,} from 'react-native';
 import { FlatList } from 'react-native-web';
+import { auth, db } from '../firebase/config';
+
+import Alerta from '../components/Alerta';
 
 class Perfil extends Component {
     constructor(){
         super()
         this.state = {
-            email: '',
-            bio: '',
-            foto: '',
-            publicaciones: ''
+            usuario: [],
+            posteos: [],
+            error: ''
         }
+    }
+
+
+    componentDidMount() {
+        db.collection('users').where('owner', '==', auth.currentUser.email).onSnapshot(
+            docs => {
+                let info = [];
+                docs.forEach( doc => {
+                    info.push({
+                        id: doc.id,
+                        data: doc.data()
+                    })
+                })
+                this.setState({
+                    usuario: info
+                })
+            }
+        )
+        console.log( this.state.usuario)
+
+        db.collection('posteos').where('emailCreador', '==', auth.currentUser.email).onSnapshot(
+            docs => {
+                let posteos = [];
+                docs.forEach( doc => {
+                    posteos.push({
+                        id: doc.id,
+                        data: docs.data()
+                    })
+                })
+                this.setState({
+                    posteos: posteos
+                })
+            }
+        )
+        console.log( this.state.posteos)
+    }
+
+    borrarCuenta(){
+        auth.currentUser.delete()
+            .then( () => {
+                this.props.navigation.navigate("Portada")
+            })
+            .catch(error => 
+                this.setState({
+                error: 'No se ha podido borrar su cuenta. intente denuevo más tarde'
+            })
+        )
+    }
+
+    cerrarSesion(){
+        auth.signOut()
+        this.props.navigation.navigate("Inicio")
     }
 
     render(){
@@ -32,27 +86,29 @@ class Perfil extends Component {
                                 resizeMode = 'contain'
                         />
                         <View>
-                            <Text style={styles.titulo}> Nombre de Usuario</Text>
+                            <Text style={styles.titulo}> {this.state.usuario.userName}</Text>
                             <View>
-                                <Text style={styles.opcion}>Cerrar sesión</Text>
-                                <Text style={styles.opcion}>Borrar cuenta</Text>
+                                <Text onPress={ () => this.cerrarSesion()} style={styles.opcion}>Cerrar sesión</Text>
+                                <Text onPress={ () => this.borrarCuenta()} style={styles.opcion}>Borrar cuenta</Text>
                             </View>
                         </View>
                     </View>
                     <View>
                         <Text style={styles.biografia}>Esta es una información poco interesante sobre mi</Text>
                         <Text style={styles.info}>esteessuemail@gmail.com</Text>
-                        <Text style={styles.info}>Cantidad de posts: 15</Text>
+                        <Text style={styles.info}>Cantidad de posts: {this.state.posteos.lenght + 1}</Text>
                     </View>
+                    {this.state.posteos.length >= 1 ?
+                        <FlatList 
+                            data = { this.state.posteos}
+                            keyExtractor = { objeto => objeto.id.toString()}
+                            renderItem = { ({objeto}) => <Text> Aca va el post</Text>}
+                        />
+                    :
+                        <Text style={styles.aviso}> Aun no hay publicaciones</Text>
+                    }
                 </View>
 
-                <View>
-                    <FlatList 
-                        data = { this.state.publicaciones}
-                        keyExtractor = { objeto => objeto.id.toString()}
-                        renderItem = { ({objeto}) => <Text> Aca va el post</Text>}
-                    />
-                </View>
             </View>
         )
     }
@@ -119,7 +175,12 @@ const styles = StyleSheet.create({
         width: 115,
         marginLeft: 15,
         borderRadius: 60
-    }
+    },
+    aviso: {
+        fontFamily: 'Courier',
+        fontSize: 13,
+        marginTop: 10,
+    },
 });
 
 
