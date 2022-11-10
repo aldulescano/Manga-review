@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import {Camera } from 'expo-camera';
+import {auth, } from '../firebase/config';
 import {storage} from '../firebase/config';
-import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
+import {View, Text, TouchableOpacity, StyleSheet, Image} from 'react-native';
 
 class Camara extends Component{
     constructor(props){
@@ -18,7 +19,7 @@ class Camara extends Component{
     componentDidMount(){
       
         Camera.requestCameraPermissionsAsync()
-            .then( () =>   {console.log('pepe'); this.setState({
+            .then( () =>   {console.log(auth.currentUser.email); this.setState({
                 permiso: true
             })})
         
@@ -28,21 +29,44 @@ class Camara extends Component{
     Fotografiar(){
      
         this.metodosCamara.takePictureAsync()
-            .then( photo => {
+            .then( foto => {
                 this.setState({
-                    urlTemporal: photo.uri,
+                    urlTemporal: foto.uri,
                     mostrarCamera: false
                 })
             })
             .catch( e => console.log(e))
     }
 
+    guardar(){
+        fetch(this.state.urlTemporal)
+    .then(res => res.blob())
+            .then( img => { 
+           
+                const refStorage = storage.ref(`photos/${Date.now()}.jpg`);
+                refStorage.put(img)
+                    .then(()=>{
+                        refStorage.getDownloadURL() 
+                        .then( url => this.props.onImageUpload(url))
+                    })
+            })
+            .catch(e => console.log(e))
+    }
+
+    cancelar (){
+
+        this.setState({
+            urlTemporal: '',
+            mostrarCamera: true
+        })
+    }
 
     render(){
         return(
             <View>
             {
                 this.state.permiso ? 
+                this.state.mostrarCamera ?
                     <View style={styles.cameraBody}>
                         <Camera
                             style={styles.cameraBody}
@@ -53,6 +77,21 @@ class Camara extends Component{
                             <Text>Sacar foto</Text>
                         </TouchableOpacity>
                     </View>
+                :
+                <View>
+                        <Image 
+                            style={styles.preview}
+                            source={{uri: this.state.urlTemporal}}
+                            resizeMode='cover'
+                        />
+                        <TouchableOpacity style={styles.button} onPress={()=>this.cancelar()}>
+                            <Text>Cancelar</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.button} onPress={()=>this.guardar()}>
+                            <Text>Aceptar</Text>
+                        </TouchableOpacity>
+                    </View>
+                
                 :
                     <Text>No hay permisos</Text>
             }
@@ -74,9 +113,11 @@ const styles = StyleSheet.create({
         borderRadius: 4,
         marginTop: 20
     },
-    preview:{
-   height:'80%'
-    }
+    preview:
+    {
+        height: '80vh',
+        width: '80vw',
+    },
 }) 
 
 

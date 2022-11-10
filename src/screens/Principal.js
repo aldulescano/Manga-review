@@ -1,29 +1,53 @@
 import React, { Component } from 'react';
-import {Text, View, StyleSheet, Image } from 'react-native'
+import { auth, db } from '../firebase/config';
+import { Text, View, StyleSheet, Image, FlatList } from 'react-native'
+import Posteo from '../components/Posteo.js';
 
 
 class Principal extends Component {
-    constructor(){
+    constructor() {
         super();
-        this.state = {      posteos: [],
+        this.state = {
+            posteos: [],
         }
     }
 
-    
+    componentDidMount() {
+        db.collection('posteos').onSnapshot(
+            docs => {
+                let posts = [];
+                docs.forEach(doc => {
+                    posts.push({
+                        id: doc.id,
+                        foto: doc.imagen,
+                        likes: doc.likes,
+                        comentarios: doc.comentarios,
+                        createdAt: doc.createdAt
+                    })
+                    this.setState({
+                        posteos: posts
+                    })
+                })
 
-    render(){
-        console.log(this.state.users);
-        return(
+            }
+        )
+    }
+
+    render() {
+
+        return (
 
             <View style={styles.container}>
-                
-            <Image
-                style = {styles.icono}
-                source = {require('../../assets/iconoDefault.png')}
-                resizeMode = 'contain'
-            />
-                <Text style = {styles.titulo}> Principal</Text>
-                <Text style ={styles.titulo}> Posteos </Text>     
+
+                <Image
+                    style={styles.icono}
+                    source={require('../../assets/iconoDefault.png')}
+                    resizeMode='contain'
+                />
+                <Text style={styles.titulo}> Principal</Text>
+                <Text style={styles.titulo}> Posteos </Text>
+                <Text onPress={() => this.props.navigation.navigate('Postear')} style={styles.link}>Postear</Text>
+            
             </View>
 
         )
@@ -31,7 +55,7 @@ class Principal extends Component {
 }
 const styles = StyleSheet.create({
     container: {
-        flex:1,
+        flex: 1,
         backgroundColor: 'rgb(234,252,255)',
         alignItems: 'center',
         justifyContent: 'center'
@@ -41,7 +65,7 @@ const styles = StyleSheet.create({
         fontSize: 22,
         margin: 20
     },
-    form:{
+    form: {
         backgroundColor: 'rgb(94, 171, 194)',
         borderRadius: 10,
         padding: 15
@@ -71,7 +95,7 @@ const styles = StyleSheet.create({
         margin: 4,
         textAlign: 'right'
     },
-    icono:{
+    icono: {
         height: 120,
         width: 120
     }
