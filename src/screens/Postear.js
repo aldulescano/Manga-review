@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {auth, db} from '../firebase/config';
+import {auth, db,} from '../firebase/config';
 import Camara from '../components/Camara';
 
 import {View, Text, StyleSheet, TextInput, TouchableOpacity, Image} from 'react-native';
@@ -9,34 +9,49 @@ class Postear extends Component {
         super()
         this.state = {
             foto: '',
-            Descripcion: '',
+            descripcion: '',
             createdAt:'',
             mostrarCamara: true,
+            likes: [],
+            comentarios: [],
         }
     }
 
 
-    postear(textoD, foto){
+    postear(){
           
                 db.collection('posteos').add({
-                    emailCreador:  auth.currentUser.email,
-                    imagen: foto,
-                    Descripcion: textoD,
-                    likes: '',
-                    comentarios: '',
+                    creador: auth.currentUser.email,
+                    imagen: this.state.foto,
+                    descripcion: this.state.descripcion,
+                    likes: this.state.likes,
+                    comentarios: this.state.comentarios,
                     createdAt: Date.now()
                 })
                 .then(() => {
                     this.setState({
-                        textoD: '',
+                        descripcion: '',
+                        foto: '',
+                        createdAt:'',
+                        mostrarCamara: true,
+                        likes: [],
+                        comentarios: [],
                                     
                     })
 
                     this.props.navigation.navigate('Principal')
                 })
                 .catch(err => console.log(err))    
-                
+    
+    
            
+    }
+
+    onImageUpload(url){
+        this.setState({
+            foto: url,
+            mostrarCamara: false,
+        })
     }
     render(){
         return(
@@ -51,20 +66,20 @@ class Postear extends Component {
                 <Text style={styles.titulo}>Haz un post!</Text>
                 {
                 this.state.mostrarCamara ?
-                <Camara/>
+                <Camara onImageUpload={url => this.onImageUpload(url)}/>
                 :
                 <View>
-                    <Text> Nuevo posteo form</Text>
+                    <Text> Escribe algo</Text>
                     <View>
                         <TextInput  
                             placeholder='texto post'
                             keyboardType='default'
-                            onChangeText={ text => this.setState({textoPost:text}) }
-                            value={this.state.textoPost}
+                            onChangeText={ text => this.setState({ descripcion:text}) }
+                            value={this.state.descripcion}
                         /> 
 
-                    <TouchableOpacity onPress={ () => this.Postear ( this.state.textoD, this.state.foto)}>
-                        <Text onPress={ () => this.props.navigation.navigate ('Principal')} style={styles.boton}>Postear</Text>
+                    <TouchableOpacity onPress={ () => this.postear ()}>
+                        <Text style={styles.boton}>Postear</Text>
                     </TouchableOpacity>
 
                 </View>
@@ -82,7 +97,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     },
     titulo: {
-        fontFamily: 'Courier',
+        
         fontSize: 22,
         margin: 20
     },
@@ -93,7 +108,7 @@ const styles = StyleSheet.create({
     },
     campo: {
         backgroundColor: 'rgb(234,252,255)',
-        fontFamily: 'Courier',
+  
         fontSize: 14,
         margin: 8,
         borderRadius: 10,
@@ -102,7 +117,7 @@ const styles = StyleSheet.create({
         padding: 5
     },
     boton: {
-        fontFamily: 'Courier',
+        
         fontSize: 14,
         margin: 10,
         backgroundColor: 'rgb(234,252,255)',
@@ -111,7 +126,7 @@ const styles = StyleSheet.create({
         padding: 5
     },
     link: {
-        fontFamily: 'Courier',
+   
         fontSize: 10,
         margin: 4,
         textAlign: 'right'
@@ -122,4 +137,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default Postear;  
+export default Postear;

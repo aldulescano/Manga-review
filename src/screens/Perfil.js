@@ -3,8 +3,6 @@ import {View, Text, StyleSheet, Image,} from 'react-native';
 import { FlatList } from 'react-native-web';
 import { auth, db } from '../firebase/config';
 
-import Alerta from '../components/Alerta';
-
 class Perfil extends Component {
     constructor(){
         super()
@@ -31,7 +29,7 @@ class Perfil extends Component {
                 })
             }
         )
-        console.log( this.state.usuario)
+        console.log(this.state.usuario)
 
         db.collection('posteos').where('emailCreador', '==', auth.currentUser.email).onSnapshot(
             docs => {
@@ -90,6 +88,7 @@ class Perfil extends Component {
                             <View>
                                 <Text onPress={ () => this.cerrarSesion()} style={styles.opcion}>Cerrar sesión</Text>
                                 <Text onPress={ () => this.borrarCuenta()} style={styles.opcion}>Borrar cuenta</Text>
+                                <Text style={styles.error}>{this.state.error}</Text>
                             </View>
                         </View>
                     </View>
@@ -181,6 +180,12 @@ const styles = StyleSheet.create({
         fontSize: 13,
         marginTop: 10,
     },
+    error: {
+        fontFamily: 'Courier',
+        fontSize: 13,
+        margin: 20,
+        color: 'rgb(217,33,33)'
+    }
 });
 
 
