@@ -19,10 +19,7 @@ class Principal extends Component {
                 docs.forEach(doc => {
                     posts.push({
                         id: doc.id,
-                        foto: doc.imagen,
-                        likes: doc.likes,
-                        comentarios: doc.comentarios,
-                        createdAt: doc.createdAt
+                        data: doc.data()
                     })
                     this.setState({
                         posteos: posts
@@ -46,8 +43,13 @@ class Principal extends Component {
                 />
                 <Text style={styles.titulo}> Principal</Text>
                 <Text style={styles.titulo}> Posteos </Text>
-                <Text onPress={() => this.props.navigation.navigate('Postear')} style={styles.link}>Postear</Text>
+                <Text style={styles.titulo} onPress={() => this.props.navigation.navigate('Postear')} >Postear</Text>
             
+                <FlatList
+                    data={this.state.posteos}
+                    keyExtractor={onePost => onePost.id.toString()}
+                    renderItem={({ item }) => <Posteo posteoData={item} />}
+                />
             </View>
 
         )

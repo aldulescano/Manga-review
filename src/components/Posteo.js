@@ -7,7 +7,7 @@ class Posteo extends Component {
     constructor(props){
         super(props)
         this.state = {
-            cantidadDeLikes:  "",                //this.props.posteoData.data.likes.length 
+            cantidadDeLikes:   this.props.posteoData.data.likes.length ,                
             propioLike:false
         }
     }
@@ -47,9 +47,10 @@ class Posteo extends Component {
         console.log(this.props);
         return(
             <View>
+                 <Text> {this.props.posteoData.data.creador} </Text>
                 <Image 
                     style={styles.photo}
-                    source={{uri: ""}} //this.props.posteoData.data.foto
+                    source={{uri: this.props.posteoData.data.imagen}} 
                     resizeMode='cover'
                 />
                 <Text> {this.props.posteoData.data.descripcion} </Text>
@@ -69,7 +70,8 @@ class Posteo extends Component {
 }
 const styles = StyleSheet.create({
     photo:{
-        height:250}
+        height: '40vh',
+        width: '40vw'}
     }) 
     
     export default Posteo;
