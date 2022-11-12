@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {auth, db,} from '../firebase/config';
 import Camara from '../components/Camara';
-
 import {View, Text, StyleSheet, TextInput, TouchableOpacity, Image} from 'react-native';
 
 class Postear extends Component {
