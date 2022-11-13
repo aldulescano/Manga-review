@@ -47,7 +47,7 @@ class Principal extends Component {
                 <FlatList
                     data={this.state.posteos}
                     keyExtractor={onePost => onePost.id.toString()}
-                    renderItem={({ item }) => <Posteo posteoData={item} />}
+                    renderItem={({ item }) => <Posteo posteoData={item} navigation={this.props.navigation} />}
                 />
 
                 {/* <Menu/> */}

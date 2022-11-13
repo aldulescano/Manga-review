@@ -28,7 +28,7 @@ function App() {
         <Stack.Screen name='Perfil' component={Perfil} options= {{ headerShown : false}}/>
         <Stack.Screen name='Postear' component={Postear} options= {{ headerShown : false}}/>
 
-        {/* <Stack.Screen name='Comments' component={Comments} options= {{ headerShown : false}}/> */}
+        <Stack.Screen name='Comments' component={Comments} options= {{ headerShown : false}}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

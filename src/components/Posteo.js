@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Text, View, TouchableOpacity, StyleSheet, Image, FlatList } from 'react-native';
 import { auth, db } from '../firebase/config';
 import firebase from 'firebase';
-import { FontAwesome } from '@expo/vector-icons';
+import { FontAwesome  } from '@expo/vector-icons'; 
 
 class Posteo extends Component {
     constructor(props) {
@@ -98,9 +98,6 @@ class Posteo extends Component {
                 />
 
             </View>
-
-
-
 
         )
     }

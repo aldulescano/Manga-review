@@ -66,7 +66,7 @@ class Inicio extends Component {
                     </TouchableOpacity>
 }
 
-                    <Text onPress={ () => this.props.navigation.navigate ('Registro')} style={styles.link}>¿No tenés una cuenta? Registrate</Text>
+                    <Text onPress={ () => this.props.navigation.navigate ('Inicio')} style={styles.link}>¿No tenés una cuenta? Registrate</Text>
                 </View>
             </View>
         )
