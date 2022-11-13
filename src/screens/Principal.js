@@ -45,13 +45,15 @@ class Principal extends Component {
                 />
                 <Text style={styles.titulo}> Principal</Text>
                 <Text style={styles.titulo}> Posteos </Text>
-                <Text style={styles.titulo} onPress={() => this.props.navigation.navigate('Postear')} >Postear</Text>
+                <Text style={styles.titulo} onPress={() => this.props.navigation.navigate('Perfil')} >Perfil</Text>
             
                 <FlatList
                     data={this.state.posteos}
                     keyExtractor={onePost => onePost.id.toString()}
                     renderItem={({ item }) => <Posteo posteoData={item} />}
                 />
+
+                <Menu/>
             </View>
 
         )

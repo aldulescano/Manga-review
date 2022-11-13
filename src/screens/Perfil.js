@@ -1,11 +1,11 @@
-import React, {Component, useState} from 'react';
-import {View, Text, StyleSheet, Image,} from 'react-native';
+import React, { Component } from 'react';
+import { View, Text, StyleSheet, Image } from 'react-native';
 import { FlatList } from 'react-native-web';
 import { auth, db } from '../firebase/config';
 
 class Perfil extends Component {
     constructor(){
-        super()
+        super();
         this.state = {
             usuario: [],
             posteos: [],
@@ -17,35 +17,19 @@ class Perfil extends Component {
     componentDidMount() {
         db.collection('users').where('owner', '==', auth.currentUser.email).onSnapshot(
             docs => {
+                console.log(docs)
                 let info = [];
-                docs.forEach( doc => {
+                docs.forEach(doc => {
                     info.push({
                         id: doc.id,
                         data: doc.data()
                     })
-                })
-                this.setState({
-                    usuario: info
-                })
-            }
-        )
-        console.log(this.state.usuario)
-
-        db.collection('posteos').where('emailCreador', '==', auth.currentUser.email).onSnapshot(
-            docs => {
-                let posteos = [];
-                docs.forEach( doc => {
-                    posteos.push({
-                        id: doc.id,
-                        data: docs.data()
+                    this.setState({
+                        usuario: info
                     })
                 })
-                this.setState({
-                    posteos: posteos
-                })
             }
         )
-        console.log( this.state.posteos)
     }
 
     borrarCuenta(){
@@ -94,8 +78,8 @@ class Perfil extends Component {
                     </View>
                     <View>
                         <Text style={styles.biografia}>Esta es una información poco interesante sobre mi</Text>
-                        <Text style={styles.info}>esteessuemail@gmail.com</Text>
-                        <Text style={styles.info}>Cantidad de posts: {this.state.posteos.lenght + 1}</Text>
+                        <Text style={styles.informacion}>esteessuemail@gmail.com</Text>
+                        <Text style={styles.informacion}>Cantidad de posts: {this.state.posteos.length}</Text>
                     </View>
                     {this.state.posteos.length >= 1 ?
                         <FlatList 
@@ -151,7 +135,7 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         padding: 5
     },
-    info: {
+    informacion: {
         fontFamily: 'Courier',
         fontSize: 11,
         margin: 4,

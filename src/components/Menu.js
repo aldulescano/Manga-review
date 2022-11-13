@@ -10,7 +10,7 @@ const Tab = createBottomTabNavigator();
 
 function Menu() {
     return(
-        <Tab.Navigator screenOptions = {{ tabBarShowLabel: false}} >
+        <Tab.Navigator screenOptions = {{ tabBarShowLabel: false}}>
             <Tab.Screen name= "Perfil" component = { Perfil } options = { {tabBarIcon: () => <AntDesign name="user" size={24} color="black" /> }}/>
             <Tab.Screen name = "Busqueda" component={ Busqueda } options = { {tabBarIcon:() => <AntDesign name="search1" size={24} color="black" />}} />
             <Tab.Screen name = "Postear" component={ Postear } options = { {tabBarIcon:() => <Ionicons name="add-circle-outline" size={24} color="black" />}} />

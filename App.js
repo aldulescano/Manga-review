@@ -7,6 +7,7 @@ import Inicio from './src/screens/Inicio';
 import Portada from './src/screens/Portada';
 import Principal from './src/screens/Principal';
 import Menu from './src/components/Menu';
+import Perfil from './src/screens/Perfil';
 
 const Stack = createNativeStackNavigator();
 
@@ -20,7 +21,8 @@ function App() {
         <Stack.Screen name='Inicio' component={Inicio} options= {{ headerShown : false}}/>
         <Stack.Screen name='Principal' component={Principal} options= {{ headerShown : false}}/>
         <Stack.Screen name='Menu' component={Menu} options= {{ headerShown : false}}/>
-        
+        <Stack.Screen name='Perfil' component={Perfil} options= {{ headerShown : false}}/>
+
       </Stack.Navigator>
     </NavigationContainer>
   );
