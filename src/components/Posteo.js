@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, TouchableOpacity, StyleSheet, Image } from 'react-native';
+import { Text, View, TouchableOpacity, StyleSheet, Image, FlatList } from 'react-native';
 import {auth, db} from '../firebase/config';
 import firebase from 'firebase';
 import { AntDesign, FontAwesome  } from '@expo/vector-icons'; 
@@ -10,7 +10,7 @@ class Posteo extends Component {
         this.state = {
             cantidadDeLikes:   this.props.posteoData.data.likes.length ,                
             propioLike:false,
-            comentarios: this.props.postData.data.comentarios.sort((a,b)=> b.createdAt - a.createdAt)
+            comentarios: this.props.posteoData.data.comentarios.sort((a,b)=> b.createdAt - a.createdAt)
         }
     }
 

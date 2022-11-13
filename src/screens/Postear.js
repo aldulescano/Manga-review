@@ -1,12 +1,7 @@
 import React, { Component } from 'react';
 import { auth, db, } from '../firebase/config';
 import Camara from '../components/Camara';
-<<<<<<< HEAD
-
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, Image } from 'react-native';
-=======
 import {View, Text, StyleSheet, TextInput, TouchableOpacity, Image} from 'react-native';
->>>>>>> a0765ac1a07d2dc954c210da01dcc76a714e9f0e
 
 class Postear extends Component {
     constructor() {

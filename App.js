@@ -19,11 +19,10 @@ function App() {
       <Stack.Navigator>
         <Stack.Screen name='Portada' component={Portada} options= {{ headerShown : false}}/> 
         <Stack.Screen name='Principal' component={Principal} options= {{ headerShown : false}}/>
-        <Stack.Screen name='Postear' component={Postear} options= {{ headerShown : false}}/>
         <Stack.Screen name='Registro' component={Registro} options= {{ headerShown : false}}/>
         <Stack.Screen name='Inicio' component={Inicio} options= {{ headerShown : false}}/>
         <Stack.Screen name='Perfil' component={Perfil} options= {{ headerShown : false}}/>
-        <Stack.Screen name='Comments' component={Comments} options= {{ headerShown : false}}/>
+        {/* <Stack.Screen name='Comments' component={Comments} options= {{ headerShown : false}}/> */}
       </Stack.Navigator>
     </NavigationContainer>
   );

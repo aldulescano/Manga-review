@@ -4,7 +4,7 @@ import { Text, View, StyleSheet, Image, FlatList } from 'react-native'
 import Posteo from '../components/Posteo.js';
 
 import Perfil from './Perfil';
-import Menu from '../components/Menu';
+// import Menu from '../components/Menu';
 
 class Principal extends Component {
     constructor() {
@@ -53,7 +53,7 @@ class Principal extends Component {
                     renderItem={({ item }) => <Posteo posteoData={item} />}
                 />
 
-                <Menu/>
+                {/* <Menu/> */}
             </View>
 
         )
