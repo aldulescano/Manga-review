@@ -9,7 +9,8 @@ class Posteo extends Component {
         super(props)
         this.state = {
             cantidadDeLikes:   this.props.posteoData.data.likes.length ,                
-            propioLike:false
+            propioLike:false,
+            comentarios: this.props.postData.data.comentarios.sort((a,b)=> b.createdAt - a.createdAt)
         }
     }
 
@@ -38,37 +39,68 @@ class Posteo extends Component {
     }
 
     unlike(){
-        this.setState({
+        db.collection('posteos')
+        .doc(this.props.posteoData.id) 
+        .update({
+            likes: firebase.firestore.FieldValue.arrayRemove(auth.currentUser.email) 
+        })
+        .then(()=> this.setState({
             cantidadDeLikes: this.state.cantidadDeLikes -1,
             propioLike: false, 
             })
+        )
+        .catch(e=>console.log(e))
     }
 
     render(){
         return(
-            <View style= {styles.container}>
-                <Text style={styles.usuario}> {this.props.posteoData.data.creador} </Text>
+            <View>
+
+            <TouchableOpacity onPress={()=> this.props.navigation.navigate('Perfil',{email:this.props.posteoData.data.creador}) }>
+            <Text >Subido por {this.props.posteoData.data.creador} </Text>
+            </TouchableOpacity>
+
                 <Image 
                     style={styles.photo}
                     source={{uri: this.props.posteoData.data.imagen}} 
                     resizeMode='cover'
                 />
-                <Text style= {styles.descripcion}> {this.props.posteoData.data.descripcion} </Text>
+                <Text> {this.props.posteoData.data.descripcion} </Text>
 
-                <View style= {styles.iconos}>
-                    { this.state.propioLike ? 
-                        <TouchableOpacity onPress={ ()=> this.unlike() }>
-                            <AntDesign name="hearto" size={24} color="black" />                    
-                        </TouchableOpacity>
-                        :
-                        <TouchableOpacity onPress={ ()=> this.like() }>
-                            <AntDesign name="heart" size={24} color="black" />
-                        </TouchableOpacity>
-                    }
-                    <FontAwesome name="comment-o" size={24} color="black" />                
-                </View>
+
                 <Text> Cantidad de Likes: {this.state.cantidadDeLikes} </Text>
+                <Text > Cantidad de comentarios:{this.state.comentarios.length} </Text> 
+
+
+                { this.state.propioLike ? 
+                    <TouchableOpacity onPress={ ()=> this.unlike() }>
+                        <Text>No me gusta más</Text>
+                    </TouchableOpacity>
+                    :
+                    <TouchableOpacity onPress={ ()=> this.like() }>
+                        <Text>Me gusta</Text>
+                    </TouchableOpacity>
+                }
+
+
+            <FlatList 
+            data={this.state.comentarios.slice(0,4)} 
+            keyExtractor={ unComentario => unComentario.createdAt.toString()}
+            renderItem={ ({item}) => <Text>{item.creador} comentó: <Text> {item.comentarios} </Text> </Text>}
+                />  
+           
+            <TouchableOpacity onPress={()=> this.props.navigation.navigate ( "Comments", {id:this.props.id}  )}> 
+                <Text >Comentar</Text>
+            </TouchableOpacity>
+
+
+
+
             </View>
+
+
+
+
         )
     }
 }
@@ -104,4 +136,4 @@ const styles = StyleSheet.create({
         width: '40vw'}
     }) 
     
-    export default Posteo;
+export default Posteo;
