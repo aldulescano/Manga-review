@@ -4,6 +4,7 @@ import { Text, View, StyleSheet, Image, FlatList } from 'react-native'
 import Posteo from '../components/Posteo.js';
 
 import Perfil from './Perfil';
+import Encabezado from '../components/Encabezado';
 // import Menu from '../components/Menu';
 
 class Principal extends Component {
@@ -38,13 +39,9 @@ class Principal extends Component {
 
             <View style={styles.container}>
 
-                <Image
-                    style={styles.icono}
-                    source={require('../../assets/iconoDefault.png')}
-                    resizeMode='contain'
-                />
-                <Text style={styles.titulo}> Principal</Text>
-                <Text style={styles.titulo}> Posteos </Text>
+                <Encabezado/>
+
+                <Text style={styles.titulo} onPress={() => this.props.navigation.navigate('Postear')}> Posteos </Text>
                 <Text style={styles.titulo} onPress={() => this.props.navigation.navigate('Perfil')} >Perfil</Text>
             
                 <FlatList
@@ -63,12 +60,12 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: 'rgb(234,252,255)',
-
     },
     titulo: {
         fontFamily: 'Courier',
         fontSize: 22,
-        margin: 20
+        margin: 20,
+        alignSelf: 'center'
     },
     boton: {
         fontFamily: 'Courier',

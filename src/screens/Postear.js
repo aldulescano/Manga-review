@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { auth, db, } from '../firebase/config';
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, Image } from 'react-native';
+
+import Encabezado from '../components/Encabezado';
 import Camara from '../components/Camara';
-import {View, Text, StyleSheet, TextInput, TouchableOpacity, Image} from 'react-native';
 
 class Postear extends Component {
     constructor() {
@@ -56,33 +58,33 @@ class Postear extends Component {
         return (
             <View style={styles.container}>
 
-                <Image
-                    style={styles.icono}
-                    source={require('../../assets/iconoDefault.png')}
-                    resizeMode='contain'
-                />
+                <Encabezado />
 
                 <Text style={styles.titulo}>Haz un post!</Text>
-                {
-                    this.state.mostrarCamara ?
-                        <Camara onImageUpload={url => this.onImageUpload(url)} />
-                        :
-                        <View>
-                            <Text> Escribe algo</Text>
+
+                <View style= {styles.form}>
+                    {
+                        this.state.mostrarCamara ?
+                            <Camara onImageUpload={url => this.onImageUpload(url)} />
+                            :
                             <View>
-                                <TextInput
-                                    placeholder='texto post'
-                                    keyboardType='default'
-                                    onChangeText={text => this.setState({ descripcion: text })}
-                                    value={this.state.descripcion}
-                                />
+                                <View>
+                                    <TextInput
+                                        placeholder='Agrega una descripción'
+                                        keyboardType='default'
+                                        onChangeText={text => this.setState({ descripcion: text })}
+                                        value={this.state.descripcion}
+                                        style = {styles.campo}
+                                    />
 
-                                <TouchableOpacity onPress={() => this.postear()}>
-                                    <Text style={styles.boton}>Postear</Text>
-                                </TouchableOpacity>
+                                    <TouchableOpacity onPress={() => this.postear()}>
+                                        <Text style={styles.boton}>Postear</Text>
+                                    </TouchableOpacity>
 
+                                </View>
                             </View>
-                        </View>}
+                    }
+                </View>
             </View>
         )
     }
@@ -92,47 +94,36 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: 'rgb(234,252,255)',
-        alignItems: 'center',
-        justifyContent: 'center'
     },
     titulo: {
-
+        alignSelf: 'center',
         fontSize: 22,
-        margin: 20
+        margin: 20,
+        fontFamily: 'Courier'
     },
     form: {
         backgroundColor: 'rgb(94, 171, 194)',
         borderRadius: 10,
-        padding: 15
+        padding: 15,
+        alignSelf: 'center'
     },
     campo: {
         backgroundColor: 'rgb(234,252,255)',
-
+        alignSelf: 'center',
         fontSize: 14,
         margin: 8,
         borderRadius: 10,
         textAlign: 'center',
         color: 'rgb(115, 115, 115)',
-        padding: 5
+        padding: 10
     },
     boton: {
-
         fontSize: 14,
         margin: 10,
         backgroundColor: 'rgb(234,252,255)',
         borderRadius: 10,
         textAlign: 'center',
         padding: 5
-    },
-    link: {
-
-        fontSize: 10,
-        margin: 4,
-        textAlign: 'right'
-    },
-    icono: {
-        height: 120,
-        width: 120
     }
 })
 

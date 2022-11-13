@@ -7,8 +7,11 @@ import Inicio from './src/screens/Inicio';
 import Portada from './src/screens/Portada';
 import Principal from './src/screens/Principal';
 import Menu from './src/components/Menu';
-import Perfil from './src/screens/Perfil';
 import Comments from "./src/screens/Comments"
+
+
+import Perfil from './src/screens/Perfil';
+import Postear from './src/screens/Postear';
 
 const Stack = createNativeStackNavigator();
 
@@ -21,7 +24,10 @@ function App() {
         <Stack.Screen name='Principal' component={Principal} options= {{ headerShown : false}}/>
         <Stack.Screen name='Registro' component={Registro} options= {{ headerShown : false}}/>
         <Stack.Screen name='Inicio' component={Inicio} options= {{ headerShown : false}}/>
+
         <Stack.Screen name='Perfil' component={Perfil} options= {{ headerShown : false}}/>
+        <Stack.Screen name='Postear' component={Postear} options= {{ headerShown : false}}/>
+
         {/* <Stack.Screen name='Comments' component={Comments} options= {{ headerShown : false}}/> */}
       </Stack.Navigator>
     </NavigationContainer>

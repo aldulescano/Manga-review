@@ -74,7 +74,7 @@ class Camara extends Component{
                             ref={metodosCamara => this.metodosCamara = metodosCamara }
                         />
                         <TouchableOpacity style={styles.button} onPress={()=>this.Fotografiar()}>
-                            <Text>Sacar foto</Text>
+                            <Text style= {styles.boton}>Sacar foto</Text>
                         </TouchableOpacity>
                     </View>
                 :
@@ -85,10 +85,10 @@ class Camara extends Component{
                             resizeMode='cover'
                         />
                         <TouchableOpacity style={styles.button} onPress={()=>this.cancelar()}>
-                            <Text>Cancelar</Text>
+                            <Text style= {styles.boton}>Cancelar</Text>
                         </TouchableOpacity>
                         <TouchableOpacity style={styles.button} onPress={()=>this.guardar()}>
-                            <Text>Aceptar</Text>
+                            <Text style= {styles.boton}>Aceptar</Text>
                         </TouchableOpacity>
                     </View>
                 
@@ -105,13 +105,14 @@ const styles = StyleSheet.create({
         height: '80vh',
         width: '80vw',
     },
-    button:{
-        height: '20vh',
-        borderColor: '#ccc',
-        borderWidth: 1,
+    boton: {
+        fontSize: 14,
+        margin: 10,
+        backgroundColor: 'rgb(234,252,255)',
+        borderRadius: 10,
+        textAlign: 'center',
         padding: 5,
-        borderRadius: 4,
-        marginTop: 20
+        fontFamily: 'Courier'
     },
     preview:
     {

@@ -3,6 +3,8 @@ import { View, Text, StyleSheet, Image } from 'react-native';
 import { FlatList } from 'react-native-web';
 import { auth, db } from '../firebase/config';
 
+import Encabezado from '../components/Encabezado';
+
 class Perfil extends Component {
     constructor(){
         super();
@@ -52,14 +54,7 @@ class Perfil extends Component {
     render(){
         return(
             <View>
-                <View style={styles.encabezado}>
-                    <Image
-                            style = {styles.icono}
-                            source = {require('../../assets/iconoAzul.png')}
-                            resizeMode = 'contain'
-                    />
-                    <Text style = {styles.nombre}>Manga Review</Text>
-                </View>
+                <Encabezado/>
                 <View style={styles.container}>
                     <View style={styles.superior}>
                         <Image
@@ -102,17 +97,6 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgb(234,252,255)',
         padding: 20
     },
-    encabezado: {
-        backgroundColor: 'rgb(94, 171, 194)',
-        flexDirection:'row',
-        alignItems: 'center',
-        paddingLeft: 10
-    },
-    nombre: {
-        fontFamily: 'Courier',
-        marginLeft: 5,
-        alignSelf: 'center'
-    },
     superior: {
         backgroundColor: 'rgb(234,252,255)',
         flexDirection:'row',
@@ -148,10 +132,6 @@ const styles = StyleSheet.create({
         fontSize: 13,
         margin: 4,
         paddingLeft: 12
-    },
-    icono:{
-        height: 40,
-        width: 40
     },
     foto:{
         height: 115,

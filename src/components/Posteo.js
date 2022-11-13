@@ -1,100 +1,101 @@
 import React, { Component } from 'react';
 import { Text, View, TouchableOpacity, StyleSheet, Image, FlatList } from 'react-native';
-import {auth, db} from '../firebase/config';
+import { auth, db } from '../firebase/config';
 import firebase from 'firebase';
-import { AntDesign, FontAwesome  } from '@expo/vector-icons'; 
+import { FontAwesome } from '@expo/vector-icons';
 
 class Posteo extends Component {
-    constructor(props){
+    constructor(props) {
         super(props)
         this.state = {
-            cantidadDeLikes:   this.props.posteoData.data.likes.length ,                
-            propioLike:false,
-            comentarios: this.props.posteoData.data.comentarios.sort((a,b)=> b.createdAt - a.createdAt)
+            cantidadDeLikes: this.props.posteoData.data.likes.length,
+            propioLike: false,
+            comentarios: this.props.posteoData.data.comentarios.sort((a, b) => b.createdAt - a.createdAt)
         }
     }
 
-    componentDidMount(){
-       
-        if(this.props.posteoData.data.likes.includes(auth.currentUser.email)){ 
+    componentDidMount() {
+
+        if (this.props.posteoData.data.likes.includes(auth.currentUser.email)) {
             this.setState({
-                propioLike:true
+                propioLike: true
             })
         }
     }
 
-    like(){
-      
+    like() {
+
         db.collection('posteos')
-            .doc(this.props.posteoData.id) 
+            .doc(this.props.posteoData.id)
             .update({
-                likes: firebase.firestore.FieldValue.arrayUnion(auth.currentUser.email) 
+                likes: firebase.firestore.FieldValue.arrayUnion(auth.currentUser.email)
             })
-            .then(()=> this.setState({
-                cantidadDeLikes: this.state.cantidadDeLikes +1,
-                propioLike: true, 
-                })
+            .then(() => this.setState({
+                cantidadDeLikes: this.state.cantidadDeLikes + 1,
+                propioLike: true,
+            })
             )
-            .catch(e=>console.log(e))
+            .catch(e => console.log(e))
     }
 
-    unlike(){
+    unlike() {
         db.collection('posteos')
-        .doc(this.props.posteoData.id) 
-        .update({
-            likes: firebase.firestore.FieldValue.arrayRemove(auth.currentUser.email) 
-        })
-        .then(()=> this.setState({
-            cantidadDeLikes: this.state.cantidadDeLikes -1,
-            propioLike: false, 
+            .doc(this.props.posteoData.id)
+            .update({
+                likes: firebase.firestore.FieldValue.arrayRemove(auth.currentUser.email)
             })
-        )
-        .catch(e=>console.log(e))
+            .then(() => this.setState({
+                cantidadDeLikes: this.state.cantidadDeLikes - 1,
+                propioLike: false,
+            })
+            )
+            .catch(e => console.log(e))
     }
 
-    render(){
-        return(
-            <View>
+    render() {
+        return (
+            <View style = {styles.container}>
 
-            <TouchableOpacity onPress={()=> this.props.navigation.navigate('Perfil',{email:this.props.posteoData.data.creador}) }>
-            <Text >Subido por {this.props.posteoData.data.creador} </Text>
-            </TouchableOpacity>
+                <TouchableOpacity onPress={() => this.props.navigation.navigate('Perfil', { email: this.props.posteoData.data.creador })}>
+                    <Text style = {styles.usuario}>{this.props.posteoData.data.creador} </Text>
+                </TouchableOpacity>
 
-                <Image 
+                <Image
                     style={styles.photo}
-                    source={{uri: this.props.posteoData.data.imagen}} 
+                    source={{ uri: this.props.posteoData.data.imagen }}
                     resizeMode='cover'
                 />
-                <Text> {this.props.posteoData.data.descripcion} </Text>
+                <Text style = {styles.descripcion}> {this.props.posteoData.data.descripcion} </Text>
 
+                <View style = {styles.inferior}>
 
-                <Text> Cantidad de Likes: {this.state.cantidadDeLikes} </Text>
-                <Text > Cantidad de comentarios:{this.state.comentarios.length} </Text> 
+                    <View style= {styles.likesSeccion}>
+                        {this.state.propioLike ?
+                            <TouchableOpacity onPress={() => this.unlike()}>
+                                <FontAwesome name="heart" size={24} color="rgb(234,252,255)" />
+                            </TouchableOpacity>
+                            :
+                            <TouchableOpacity onPress={() => this.like()}>
+                                <FontAwesome name="heart-o" size={24} color="rgb(234,252,255)" />                      
+                            </TouchableOpacity>
+                        }
+                        <Text style= {styles.textito}> Likes: {this.state.cantidadDeLikes} </Text>
+                    </View>
 
+                    <View style = {styles.comentariosSeccion}>
+                    <TouchableOpacity onPress={() => this.props.navigation.navigate("Comments", { id: this.props.id })}>
+                            <FontAwesome name="comment-o" size={24} color="rgb(234,252,255)" />
+                        </TouchableOpacity>
+                    <Text  style= {styles.textito}> Comentarios: {this.state.comentarios.length} </Text>
+                    </View>
 
-                { this.state.propioLike ? 
-                    <TouchableOpacity onPress={ ()=> this.unlike() }>
-                        <Text>No me gusta más</Text>
-                    </TouchableOpacity>
-                    :
-                    <TouchableOpacity onPress={ ()=> this.like() }>
-                        <Text>Me gusta</Text>
-                    </TouchableOpacity>
-                }
+                </View>
 
-
-            <FlatList 
-            data={this.state.comentarios.slice(0,4)} 
-            keyExtractor={ unComentario => unComentario.createdAt.toString()}
-            renderItem={ ({item}) => <Text>{item.creador} comentó: <Text> {item.comentarios} </Text> </Text>}
-                />  
-           
-            <TouchableOpacity onPress={()=> this.props.navigation.navigate ( "Comments", {id:this.props.id}  )}> 
-                <Text >Comentar</Text>
-            </TouchableOpacity>
-
-
-
+                <FlatList
+                    data={this.state.comentarios.slice(0, 4)}
+                    keyExtractor={unComentario => unComentario.createdAt.toString()}
+                    renderItem={({ item }) => <Text>{item.creador} comentó: <Text> {item.comentarios} </Text> </Text>}
+                />
 
             </View>
 
@@ -109,13 +110,16 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgb(94, 171, 194)',
         alignItems: 'center',
         borderRadius: 20,
-        marginBottom: 15
+        margin: 25,
+        marginBottom: 5,
+        padding: 10
     },
     usuario: {
         alignSelf: 'flex-start',
         fontFamily: 'Courier',
-        fontSize: 16,
-        padding: 5
+        fontSize: 14,
+        padding: 10,
+        color: 'rgb(234,252,255)'
     },
     descripcion: {
         backgroundColor: 'rgb(234,252,255)',
@@ -123,17 +127,40 @@ const styles = StyleSheet.create({
         fontSize: 12,
         borderRadius: 10,
         padding: 10,
-        margin: 5
+        margin: 5,
+        width: 155,
+        justifyContent: 'center',
+        color: 'rgb(51, 74, 82)'
     },
-    iconos:{
-        flexDirection: 'row'
+    inferior: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center'
+    },  
+    likesSeccion: {
+        justifyContent: 'space-around',
+        alignItems: 'center',
+        margin: 10
+    },
+    comentariosSeccion: {
+        justifyContent: 'space-around',
+        alignItems: 'center',
+        margin: 10
+    },
+    textito: {
+        fontSize: 11,
+        color: 'rgb(234,252,255)',
+        marginTop: 5
     },
     comentario: {
         fontSize: 30
     },
-    photo:{
+    photo: {
         height: '40vh',
-        width: '40vw'}
-    }) 
-    
+        width: '40vw',
+        borderColor: 'rgb(234,252,255)',
+        borderWidth: 5
+    }
+})
+
 export default Posteo;
