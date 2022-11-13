@@ -11,7 +11,7 @@ class Comments extends Component {
 constructor (props){
     super (props)
     this.state = {
-    id:this.props.id,
+    id:this.props.route.params.id,
     data:"",
     comentario:"",
     comentarios:this.props.comentarios
@@ -30,9 +30,10 @@ componentDidMount(){
     render(){
         return(
             <View> 
-                <Text> Comentarios del posteo actual </Text>
+            <Text> Comentarios del posteo actual </Text>
 
             {this.state.comentarios == 0 ?
+            
             <View style={styles.container}> 
             <Text  > Aún no hay comentarios. Sé el primero en opinar </Text>
             <Subircomentario id={this.state.id} data={this.state.data}/>
@@ -47,8 +48,6 @@ componentDidMount(){
         
 
 }
-
-
             </View>
         )
     }
