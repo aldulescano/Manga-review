@@ -24,13 +24,9 @@ class Inicio extends Component {
             )
     }
 
-
-
     render(){
         return(
             <View style={styles.container}>
-
-            <Text style={styles.errors}>{this.state.errors}</Text>
 
                 <Image
                     style = {styles.icono}
@@ -91,7 +87,7 @@ const styles = StyleSheet.create({
     },
     errors: {
         fontFamily: 'Courier',
-        fontSize: 19,
+        fontSize: 13,
         margin: 20,
         color: 'rgb(217,33,33)'
     },

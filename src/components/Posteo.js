@@ -3,7 +3,7 @@ import { Text, View, TouchableOpacity, StyleSheet, Image, FlatList } from 'react
 import {auth, db} from '../firebase/config';
 import firebase from 'firebase';
 import { useNavigation } from '@react-navigation/native';
-
+import { AntDesign, FontAwesome  } from '@expo/vector-icons'; 
 
 class Posteo extends Component {
     constructor(props){
@@ -54,7 +54,6 @@ class Posteo extends Component {
     }
 
     render(){
-        console.log(this.props);
         return(
             <View>
             
@@ -104,6 +103,32 @@ class Posteo extends Component {
     }
 }
 const styles = StyleSheet.create({
+    container: {
+        backgroundColor: 'rgb(94, 171, 194)',
+        alignItems: 'center',
+        borderRadius: 20,
+        marginBottom: 15
+    },
+    usuario: {
+        alignSelf: 'flex-start',
+        fontFamily: 'Courier',
+        fontSize: 16,
+        padding: 5
+    },
+    descripcion: {
+        backgroundColor: 'rgb(234,252,255)',
+        fontFamily: 'Courier',
+        fontSize: 12,
+        borderRadius: 10,
+        padding: 10,
+        margin: 5
+    },
+    iconos:{
+        flexDirection: 'row'
+    },
+    comentario: {
+        fontSize: 30
+    },
     photo:{
         height: '40vh',
         width: '40vw'}
