@@ -42,8 +42,7 @@ class Postear extends Component {
                 })
                 .catch(err => console.log(err))    
     
-    
-           
+
     }
 
     onImageUpload(url){

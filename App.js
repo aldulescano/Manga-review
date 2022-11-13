@@ -23,7 +23,7 @@ function App() {
         <Stack.Screen name='Registro' component={Registro} options= {{ headerShown : false}}/>
         <Stack.Screen name='Inicio' component={Inicio} options= {{ headerShown : false}}/>
         <Stack.Screen name='Perfil' component={Perfil} options= {{ headerShown : false}}/>
-        <Stack.Screen name='Comments' component={Comentario} options= {{ headerShown : false}}/>
+        <Stack.Screen name='Comments' component={Comments} options= {{ headerShown : false}}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

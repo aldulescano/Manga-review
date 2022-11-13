@@ -1,15 +1,17 @@
 import React, { Component } from 'react';
-import { Text, View, TouchableOpacity, StyleSheet, Image } from 'react-native';
+import { Text, View, TouchableOpacity, StyleSheet, Image, FlatList } from 'react-native';
 import {auth, db} from '../firebase/config';
 import firebase from 'firebase';
+import { useNavigation } from '@react-navigation/native';
+
 
 class Posteo extends Component {
     constructor(props){
         super(props)
         this.state = {
-            cantidadDeLikes:   this.props.posteoData.data.likes.length ,                
+            cantidadDeLikes:  this.props.posteoData.data.likes.length ,                
             propioLike:false,
-            comentarios: this.props.postData.data.comentarios.sort((a,b)=> b.createdAt - a.createdAt)
+            comentarios: this.props.posteoData.data.comentarios.sort((a,b)=> b.createdAt - a.createdAt)
         }
     }
 
@@ -55,7 +57,8 @@ class Posteo extends Component {
         console.log(this.props);
         return(
             <View>
-
+            
+            
             <TouchableOpacity onPress={()=> this.props.navigation.navigate('Perfil',{email:this.props.posteoData.data.creador}) }>
             <Text >Subido por {this.props.posteoData.data.creador} </Text>
             </TouchableOpacity>
@@ -67,9 +70,8 @@ class Posteo extends Component {
                 />
                 <Text> {this.props.posteoData.data.descripcion} </Text>
 
-
                 <Text> Cantidad de Likes: {this.state.cantidadDeLikes} </Text>
-                <Text > Cantidad de comentarios:{this.state.comentarios.length} </Text> 
+                <Text > Cantidad de comentarios:{this.state.comentarios.length} </Text>
 
 
                 { this.state.propioLike ? 
@@ -83,19 +85,16 @@ class Posteo extends Component {
                 }
 
 
-            <FlatList 
-            data={this.state.comentarios.slice(0,4)} 
-            keyExtractor={ unComentario => unComentario.createdAt.toString()}
-            renderItem={ ({item}) => <Text>{item.creador} comentó: <Text> {item.comentarios} </Text> </Text>}
-                />  
-           
-            <TouchableOpacity onPress={()=> this.props.navigation.navigate ( "Comments", {id:this.props.id}  )}> 
-                <Text >Comentar</Text>
-            </TouchableOpacity>
-
-
-
-
+                <TouchableOpacity onPress={() => this.props.navigation.navigate('Comments', {  
+                    id:this.props.posteoData.id, 
+                    navigation: this.props.navigation,
+                    data: this.props.posteoData.data,
+                    comentarios: this.props.posteoData.data.comentarios
+                }
+                )} >
+                <Text>Ver comentarios</Text>
+                </TouchableOpacity>
+                
             </View>
 
 
