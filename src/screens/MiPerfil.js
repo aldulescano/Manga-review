@@ -5,6 +5,7 @@ import { auth, db } from '../firebase/config';
 
 import Encabezado from '../components/Encabezado';
 import Posteo from '../components/Posteo';
+import EdicionPerfil from './EdicionPerfil';
 
 class MiPerfil extends Component {
     constructor(){
@@ -74,14 +75,17 @@ class MiPerfil extends Component {
                 <Encabezado/>
                 <View style={styles.container}>
                     <View style={styles.superior}>
-                        <Image
-                                style = {styles.foto}
-                                source = {require('../../assets/iconoAzul.png')}
-                                resizeMode = 'contain'
-                        />
                         <View>
+                            <Image
+                                    style = {styles.foto}
+                                    source = {require('../../assets/iconoAzul.png')}
+                                    resizeMode = 'contain'
+                            />
                             <Text style={styles.titulo}> {this.state.usuario.userName}</Text>
+                        </View>
+                        <View>
                             <View>
+                                <Text onPress={() => this.props.navigation.navigate('EdicionPerfil')}  style={styles.opcion}>Editar cuenta</Text>
                                 <Text onPress={ () => this.cerrarSesion()} style={styles.opcion}>Cerrar sesión</Text>
                                 <Text onPress={ () => this.borrarCuenta()} style={styles.opcion}>Borrar cuenta</Text>
                                 <Text style={styles.error}>{this.state.error}</Text>
@@ -97,14 +101,13 @@ class MiPerfil extends Component {
                     {this.state.posteos.length >= 1 ?
                         <FlatList
                             data={this.state.posteos}
-                            keyExtractor={onePost => onePost.id}
+                            keyExtractor={onePost => onePost.data.createdAt.toString()}
                             renderItem={({ item }) => <Posteo posteoData={item} navigation={this.props.navigation} />}
                         />
                     :
                         <Text style={styles.aviso}> Aun no hay publicaciones</Text>
                     }
                 </View>
-
             </View>
         )
     }
@@ -118,8 +121,7 @@ const styles = StyleSheet.create({
     superior: {
         backgroundColor: 'rgb(234,252,255)',
         flexDirection:'row',
-        paddingTop: 40  ,
-        marginBottom: 10
+        paddingTop: 40 
     },
     titulo: {
         fontFamily: 'Courier',

@@ -1,27 +1,35 @@
 import React, {Component} from 'react';
-import {auth} from '../firebase/config';
+import {auth, db} from '../firebase/config';
 import {View, Text, StyleSheet, TextInput, TouchableOpacity, Image} from 'react-native';
 
-class Inicio extends Component {
+class EdicionPerfil extends Component {
     constructor(){
         super()
         this.state = {
-            email: "",
-            contraseña: "",
-            errors: ""
+            usuario: '',
+            contraseña: '',
+            bio: '',
+            errors: ''
         }
     }
 
-    iniciarUsuario(email, pass){
-        auth.signInWithEmailAndPassword(email, pass)
-            .then( res => {
-                this.props.navigation.navigate("Menu")
-            })
-            .catch(error => 
-                this.setState({
-                errors: `Tienes un error: ${error.message}`
-            })
-            )
+    actualizarUsuario(){
+        auth.currentUser.updateProfile({
+            userName : this.state.usuario,
+            bio: this.state.bio
+        }).then( () => {
+
+        }).catch( (error) => {
+
+        });
+        
+        auth.currentUser.updatePassword(
+            this.state.contraseña
+        ).then( () => {
+
+        }).catch( (error) => {
+
+        });
     }
 
     render(){
@@ -34,15 +42,15 @@ class Inicio extends Component {
                     resizeMode = 'contain'
                 />
 
-                <Text style={styles.titulo}>Inicia Sesión</Text>
+                <Text style={styles.titulo}>Edita tu Perfil</Text>
 
                 <View style={styles.form}>
                 <Text style={styles.errors}>{this.state.errors}</Text>
                     <TextInput 
-                        placeholder= 'Email'
-                        keyboardType= 'email-address'
-                        onChangeText={ texto => this.setState({email : texto})}
-                        value = {this.state.email}
+                        placeholder= 'Nombre de usuario'
+                        keyboardType= 'default'
+                        onChangeText={ texto => this.setState({usuario : texto})}
+                        value = {this.state.usuario}
                         style={styles.campo}
                     />
                     <TextInput 
@@ -52,21 +60,22 @@ class Inicio extends Component {
                         onChangeText={ texto => this.setState({contraseña : texto})}
                         value = {this.state.contraseña}
                         style={styles.campo}
-                    />            
+                    />  
+                    <TextInput 
+                        placeholder= 'Biografia'
+                        keyboardType= 'default'
+                        onChangeText={ texto => this.setState({bio : texto})}
+                        value = {this.state.bio}
+                        style={styles.campo}
+                    />          
 
-
-{
-                this.state.email =="" || this.state.contraseña =="" ? 
-                    <TouchableOpacity>
-                        <Text style={styles.botonerror}>Ingresar</Text>
+                    <TouchableOpacity onPress={ () => this.actualizarUsuario (this.state.usuario, this.state.contraseña, this.state.bio)} >
+                        <Text style={styles.boton}>Actualizar</Text>
                     </TouchableOpacity>
-                :
-                    <TouchableOpacity onPress={ () => this.iniciarUsuario (this.state.email, this.state.contraseña)} >
-                        <Text style={styles.boton}>Ingresar</Text>
+                    <TouchableOpacity onPress={ () => this.props.navigation.navigate('MiPerfil')} >
+                        <Text style={styles.boton}>Cancelar</Text>
                     </TouchableOpacity>
-}
 
-                    <Text onPress={ () => this.props.navigation.navigate ('Inicio')} style={styles.link}>¿No tenés una cuenta? Registrate</Text>
                 </View>
             </View>
         )
@@ -137,4 +146,4 @@ const styles = StyleSheet.create({
 })
 
 
-export default Inicio;
+export default EdicionPerfil;

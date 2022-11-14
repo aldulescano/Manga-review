@@ -32,7 +32,6 @@ class Perfil extends Component {
                 })
             }
         )
-        console.log(this.state.usuario)
 
         db.collection('posteos').where("creador", "==", this.props.route.params.email).onSnapshot(
             docs => {
@@ -40,7 +39,7 @@ class Perfil extends Component {
                 docs.forEach( doc => {
                     posteos.push({
                         data: doc.data(),
-                        id: doc.createdAt
+                        id: doc.id
                     })
                 })
             this.setState({
@@ -48,7 +47,6 @@ class Perfil extends Component {
             })
             }
         )
-        console.log(this.state.posteos)
     }
 
 
@@ -73,14 +71,13 @@ class Perfil extends Component {
                     {this.state.posteos.length >= 1 ?
                         <FlatList
                             data={this.state.posteos}
-                            keyExtractor={onePost => onePost.id}
-                            renderItem={({ item }) => <Posteo posteoData={item} navigation={this.props.navigation} />}
+                            keyExtractor={onePost => onePost.data.createdAt.toString()}
+                            renderItem={({ item }) => <Posteo posteoData={item} />}
                         />
                     :
                         <Text style={styles.aviso}> Aun no hay publicaciones</Text>
                     }
                 </View>
-
 
             </View>
         )

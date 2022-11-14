@@ -24,7 +24,7 @@ class Posteo extends Component {
     }
 
     like() {
-
+        console.log(this.props.posteoData.id)
         db.collection('posteos')
             .doc(this.props.posteoData.id)
             .update({
@@ -52,11 +52,19 @@ class Posteo extends Component {
             .catch(e => console.log(e))
     }
 
+    irAPerfil(){
+        if (this.props.posteoData.data.creador === auth.currentUser.email) {
+            this.props.navigation.navigate('MiPerfil')
+        } else {
+            this.props.navigation.navigate('Perfil', { email: this.props.posteoData.data.creador })
+        }
+    }
+
     render() {
         return (
             <View style = {styles.container}>
 
-                <TouchableOpacity onPress={() => this.props.navigation.navigate('Perfil', { email: this.props.posteoData.data.creador })}>
+                <TouchableOpacity onPress={() => this.irAPerfil()}>
                     <Text style = {styles.usuario}>{this.props.posteoData.data.creador} </Text>
                 </TouchableOpacity>
 
