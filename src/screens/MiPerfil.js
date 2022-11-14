@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, Image } from 'react-native';
 import { FlatList } from 'react-native-web';
-import { db } from '../firebase/config';
+import { auth, db } from '../firebase/config';
 
 import Encabezado from '../components/Encabezado';
 import Posteo from '../components/Posteo';
 
-class Perfil extends Component {
+class MiPerfil extends Component {
     constructor(){
         super();
         this.state = {
@@ -18,7 +18,7 @@ class Perfil extends Component {
 
 
     componentDidMount() {
-        db.collection('users').where('owner', '==', this.props.route.params.email).onSnapshot(
+        db.collection('users').where('owner', '==', auth.currentUser.email).onSnapshot(
             docs => {
                 let info = [];
                 docs.forEach ( doc => {
@@ -34,7 +34,7 @@ class Perfil extends Component {
         )
         console.log(this.state.usuario)
 
-        db.collection('posteos').where("creador", "==", this.props.route.params.email).onSnapshot(
+        db.collection('posteos').where("creador", "==", auth.currentUser.email).onSnapshot(
             docs => {
                 let posteos = []
                 docs.forEach( doc => {
@@ -51,6 +51,22 @@ class Perfil extends Component {
         console.log(this.state.posteos)
     }
 
+    borrarCuenta(){
+        auth.currentUser.delete()
+            .then( () => {
+                this.props.navigation.navigate("Portada")
+            })
+            .catch(error => 
+                this.setState({
+                error: 'No se ha podido borrar su cuenta. Intente denuevo más tarde'
+            })
+        )
+    }
+
+    cerrarSesion(){
+        auth.signOut()
+        this.props.navigation.navigate("Inicio")
+    }
 
     render(){
         return(
@@ -65,10 +81,18 @@ class Perfil extends Component {
                         />
                         <View>
                             <Text style={styles.titulo}> {this.state.usuario.userName}</Text>
-                            <Text style={styles.biografia}>{this.state.usuario.bio}</Text>
-                            <Text style={styles.informacion}>{this.state.usuario.owner}</Text>
-                            <Text style={styles.informacion}>Cantidad de posts: {this.state.posteos.length}</Text>
+                            <View>
+                                <Text onPress={ () => this.cerrarSesion()} style={styles.opcion}>Cerrar sesión</Text>
+                                <Text onPress={ () => this.borrarCuenta()} style={styles.opcion}>Borrar cuenta</Text>
+                                <Text style={styles.error}>{this.state.error}</Text>
+                            </View>
+
                         </View>
+                    </View>
+                    <View>
+                        <Text style={styles.biografia}>{this.state.usuario.bio}</Text>
+                        <Text style={styles.informacion}>{this.state.usuario.owner}</Text>
+                        <Text style={styles.informacion}>Cantidad de posts: {this.state.posteos.length}</Text>
                     </View>
                     {this.state.posteos.length >= 1 ?
                         <FlatList
@@ -80,7 +104,6 @@ class Perfil extends Component {
                         <Text style={styles.aviso}> Aun no hay publicaciones</Text>
                     }
                 </View>
-
 
             </View>
         )
@@ -95,11 +118,14 @@ const styles = StyleSheet.create({
     superior: {
         backgroundColor: 'rgb(234,252,255)',
         flexDirection:'row',
-        paddingTop: 40 
+        paddingTop: 40  ,
+        marginBottom: 10
     },
     titulo: {
         fontFamily: 'Courier',
-        fontSize: 18
+        fontSize: 16,
+        margin: 10,
+        alignSelf: 'center'
     },
     opcion: {
         backgroundColor: 'rgb(94, 171, 194)',
@@ -115,6 +141,7 @@ const styles = StyleSheet.create({
         fontFamily: 'Courier',
         fontSize: 11,
         margin: 4,
+        flex: 4,
         paddingLeft: 12,
         color: 'rgb(115, 115, 115)'
     },
@@ -144,4 +171,4 @@ const styles = StyleSheet.create({
 });
 
 
-export default Perfil;
+export default MiPerfil;

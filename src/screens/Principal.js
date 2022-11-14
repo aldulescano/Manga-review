@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { auth, db } from '../firebase/config';
 import { Text, View, StyleSheet, Image, FlatList } from 'react-native'
-import Posteo from '../components/Posteo.js';
 
-import Perfil from './Perfil';
+import Posteo from '../components/Posteo.js';
+import MiPerfil from './MiPerfil';
 import Encabezado from '../components/Encabezado';
-// import Menu from '../components/Menu';
+import Menu from '../components/Menu';
 
 class Principal extends Component {
     constructor() {
@@ -42,7 +42,7 @@ class Principal extends Component {
                 <Encabezado/>
 
                 <Text style={styles.titulo} onPress={() => this.props.navigation.navigate('Postear')}> Posteos </Text>
-                <Text style={styles.titulo} onPress={() => this.props.navigation.navigate('Perfil')} >Perfil</Text>
+                <Text style={styles.titulo} onPress={() => this.props.navigation.navigate('MiPerfil')} >Perfil</Text>
             
                 <FlatList
                     data={this.state.posteos}
@@ -50,7 +50,6 @@ class Principal extends Component {
                     renderItem={({ item }) => <Posteo posteoData={item} navigation={this.props.navigation} />}
                 />
 
-                {/* <Menu/> */}
             </View>
 
         )
