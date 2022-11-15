@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {auth, db} from '../firebase/config';
 import {View, Text, StyleSheet, TextInput, TouchableOpacity, Image} from 'react-native';
+import Camara from '../components/Camara';
 
 class Registro extends Component {
     constructor(){
@@ -13,10 +14,16 @@ class Registro extends Component {
             bio: "",
             foto: "",
             errors: "",
+            mostrarCamara: false, 
         }
     }
 
-
+onImageUpload(url) {
+        this.setState({
+            foto: url,
+            mostrarCamara: false,
+        })
+    }
 registrarUsuario(email,pass, userName, bio, foto){
     //Lo que queremos hacer es registrar en Firebase que damos de alta al usuario y si el registro sale bien entonces redireccionar a Login //
     //Hacemos uso de auth de firebase y aprovechamos el método createUserWithEmailAndPassword con los parámetros obligatorios que son email y pass//
@@ -62,10 +69,7 @@ registrarUsuario(email,pass, userName, bio, foto){
                     source = {require('../../assets/iconoDefault.png')}
                     resizeMode = 'contain'
                 />
-
                 <Text style={styles.titulo}>Regístrate</Text>
-                
-                
                 <View style={styles.form}>
                 <Text style={styles.errors}>{this.state.errors}</Text>
 
@@ -103,16 +107,21 @@ registrarUsuario(email,pass, userName, bio, foto){
                         value = {this.state.bio}
                         style={styles.campo}
                     />  
-                    <TextInput 
-                        placeholder= 'Foto de Perfil'
-                        keyboardType= 'default'
-                        onChangeText={ texto => this.setState({foto : texto})}
-                        value = {this.state.foto}
-                        style={styles.campo}
-                    />    
+
+
+                
+                        {
+                        this.state.mostrarCamara ?
+                        <View style={{width: "125vw", heigth: "125vh"}}>
+                            <Camara onImageUpload={url => this.onImageUpload(url)}/> 
+                        </View> 
+                        :
+                        <TouchableOpacity onPress={()=> this.setState({showCamera:true})}>
+                            <Text style={styles.botonFoto} > Subir foto de perfil</Text>
+                        </TouchableOpacity>
+                    }
 
             
-
 
             {
                 this.state.email =="" || this.state.contraseña =="" || this.state.usuario == "" ? 
@@ -172,6 +181,16 @@ const styles = StyleSheet.create({
         fontSize: 14,
         margin: 10,
         backgroundColor: 'rgb(0,170,228)',
+        borderRadius: 10,
+        textAlign: 'center',
+        padding: 5
+    },
+    botonFoto: {
+        fontFamily: 'Courier',
+        fontSize: 14,
+        textAlign: 'center',
+        margin: 10,
+        backgroundColor: 'rgb(90,190,22)',
         borderRadius: 10,
         textAlign: 'center',
         padding: 5
