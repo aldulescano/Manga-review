@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {auth} from '../firebase/config';
 import {View, Text, StyleSheet, TextInput, TouchableOpacity, Image} from 'react-native';
 
 class Portada extends Component {
@@ -6,6 +7,15 @@ class Portada extends Component {
         super()
         this.state = {
         }
+    }
+
+    componentDidMount(){ 
+        auth.onAuthStateChanged(
+        user => {
+            if (user){
+                this.props.navigation.navigate("Menu")
+            }
+        })
     }
 
     render(){

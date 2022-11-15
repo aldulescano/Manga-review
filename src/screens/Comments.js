@@ -15,7 +15,7 @@ constructor (props){
 }
 
 componentDidMount(){
-    db.collection('posts').doc(this.state.id).onSnapshot(
+    db.collection('posteos').doc(this.state.id).onSnapshot(
         docs => {
             this.setState({
                 comentarios: docs.data().comentarios
@@ -24,10 +24,10 @@ componentDidMount(){
 };
 
 subirComentario(comentario){
-    db.collection("posts")
+    db.collection('posteos')
     .doc(this.state.id)
     .update({
-        comentarios: firebase.firestore.FieldValue.arrayUnion({owner:auth.currentUser.email,comentario:comentario,createdAt: Date.now()})  
+        comentarios: firebase.firestore.FieldValue.arrayUnion({creador:auth.currentUser.email,comentario:comentario,createdAt: Date.now()})  
 })
 .then(() => {
     this.setState({
@@ -37,6 +37,7 @@ subirComentario(comentario){
 
 
     render(){
+        console.log(this.state.comentarios)
         return(
             <View> 
             <Text> Comentarios del post actual</Text>
@@ -45,23 +46,22 @@ subirComentario(comentario){
             
             <View style={styles.container}> 
             <Text  > Aún no hay comentarios. Sé el primero en opinar </Text>
-            <SubirComentario id={this.state.id}/>
             </View>
             :
             <FlatList 
                 data={this.state.comentarios}
                 keyExtractor={ unComentario => unComentario.createdAt.toString()}
-                renderItem={ ({item}) => <Text>{item.creador} comentó: {item.comentarios}</Text>}
+                renderItem={ ({item}) => <Text>{item.creador} comentó: {item.comentario}</Text>}
             /> 
             }
             <TextInput 
                 placeholder='Agregue un comentario'
                 keyboardType='default'
-                onChangeText={comentario=> this.setState({comentario:comentario})}
+                onChangeText={text=> this.setState({comentario:text})}
                 value={this.state.comentario}
             />
-            {this.state.comentario === "" ?
-                <></>
+            {this.state.comentario == "" ?
+                <Text></Text>
                 :
                 <TouchableOpacity onPress={()=> this.subirComentario(this.state.comentario) }>
                     <Text>Subir comentario a este posteo</Text>

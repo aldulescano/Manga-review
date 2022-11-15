@@ -10,7 +10,7 @@ class Posteo extends Component {
         this.state = {
             cantidadDeLikes: this.props.posteoData.data.likes.length,
             propioLike: false,
-            comentarios: this.props.posteoData.data.comentarios.sort((a, b) => b.createdAt - a.createdAt)
+            comentarios: this.props.posteoData.data.comentarios
         }
     }
 
@@ -91,7 +91,7 @@ class Posteo extends Component {
                     </View>
 
                     <View style = {styles.comentariosSeccion}>
-                    <TouchableOpacity onPress={() => this.props.navigation.navigate("Comments", { id: this.props.id })}>
+                    <TouchableOpacity onPress={() => this.props.navigation.navigate("Comments", { id: this.props.posteoData.id })}>
                             <FontAwesome name="comment-o" size={24} color="rgb(234,252,255)" />
                         </TouchableOpacity>
                     <Text  style= {styles.textito}> Comentarios: {this.state.comentarios.length} </Text>
