@@ -116,7 +116,7 @@ registrarUsuario(email,pass, userName, bio, foto){
                             <Camara onImageUpload={url => this.onImageUpload(url)}/> 
                         </View> 
                         :
-                        <TouchableOpacity onPress={()=> this.setState({showCamera:true})}>
+                        <TouchableOpacity onPress={()=> this.setState({mostrarCamara:true})}>
                             <Text style={styles.botonFoto} > Subir foto de perfil</Text>
                         </TouchableOpacity>
                     }
