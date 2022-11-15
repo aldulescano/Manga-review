@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import {Text, View, StyleSheet, TextInput, TouchableOpacity, FlatList } from 'react-native'
-import Encabezado from '../components/Encabezado';
 import { AntDesign } from '@expo/vector-icons'; 
-
 import { db } from '../firebase/config';
+import firebase from 'firebase';
 
+import Encabezado from '../components/Encabezado';
 
 class Busqueda extends Component {
     constructor(){
@@ -12,8 +12,7 @@ class Busqueda extends Component {
         this.state = {    
             input: '',
             usuarios: [],
-            resultados: [],
-            cargando: true
+            resultados: []
         }
     }
 
@@ -27,22 +26,33 @@ class Busqueda extends Component {
                         data: doc.data()
                     })
                     this.setState({
-                        usuarios: info[0].data
+                        usuarios: info
                     })
                 })
             }
         )
     }
 
-    buscar(){
+    filtrar(){
+        let input = this.state.input.toLowerCase()
+        this.setState({
+            resultados: this.state.usuarios.filter((usuario) => usuario.data.userName.toLowerCase().includes(input))
+        })
+    }
 
+    borrar(){
+        this.setState({
+            input: '',
+            usuarios: [],
+            resultados: []
+        })
     }
 
     irAPerfil(){
         if (this.props.posteoData.data.creador === auth.currentUser.email) {
             this.props.navigation.navigate('MiPerfil')
         } else {
-            this.props.navigation.navigate('Perfil', { email: this.props.posteoData.data.creador })
+            this.props.navigation.navigate('Perfil', { email: this.props.usuarios.owner })
         }
     }
 
@@ -53,17 +63,24 @@ class Busqueda extends Component {
                 <Encabezado/>
                 <View style={styles.form}>
                     <TextInput 
-                            placeholder= 'Email'
+                            placeholder= 'Usuario'
                             keyboardType= 'default'
-                            onChangeText={ texto => this.setState({input : texto})}
+                            onChangeText= {texto => this.setState({
+                                input: texto
+                            })}
                             value = {this.state.input}
                             style={styles.campo}
                     />
-                    <AntDesign name="search1" size={24} color="black" />
+                    <TouchableOpacity onPress={() => this.filtrar()}>
+                        <AntDesign name="search1" size={24} color="black" />
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => this.borrar()}>
+                        <Text style={styles.boton}>Borrar</Text>
+                    </TouchableOpacity>
                 </View>
 
                 {
-                    this.state.resultado != '' ?
+                    this.state.resultados = '' ?
                     <Text style={styles.aviso}> No hay un usuario que coincida con tu búsqueda</Text>
                     :
                     <FlatList

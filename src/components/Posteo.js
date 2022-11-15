@@ -103,6 +103,7 @@ class Posteo extends Component {
                     data={this.state.comentarios.slice(0, 4)}
                     keyExtractor={unComentario => unComentario.createdAt.toString()}
                     renderItem={({ item }) => <Text>{item.creador} comentó: <Text> {item.comentarios} </Text> </Text>}
+                    style={styles.lista}
                 />
 
             </View>
@@ -165,6 +166,15 @@ const styles = StyleSheet.create({
         width: '40vw',
         borderColor: 'rgb(234,252,255)',
         borderWidth: 5
+    },
+    lista: {
+        backgroundColor: 'rgb(234,252,255)',
+        fontFamily: 'Courier',
+        fontSize: 12,
+        margin: 4,
+        borderRadius: 10,
+        textAlign: 'left',
+        padding: 8
     }
 })
 
