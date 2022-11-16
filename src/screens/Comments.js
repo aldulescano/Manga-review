@@ -41,10 +41,6 @@ class Comments extends Component {
         console.log(this.state.comentarios)
         return (
             <View style={styles.container}>
-                <View style= {styles.superior}>
-                    <Text style= {styles.titulo}>Comentarios</Text>
-                </View>
-
                 <View style={styles.inferior}>
                     {this.state.comentarios == 0 ?
 
@@ -85,10 +81,6 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgb(94, 171, 194)',
         padding: 10,
         marginBottom: 15
-    },
-    titulo: {
-        fontFamily: 'Courier',
-        fontSize: 18
     },
     inferior:{
         backgroundColor: 'rgb(94, 171, 194)',

@@ -102,7 +102,7 @@ class Posteo extends Component {
                 <FlatList
                     data={this.state.comentarios.slice(0, 4)}
                     keyExtractor={unComentario => unComentario.createdAt.toString()}
-                    renderItem={({ item }) => <Text style={styles.lista}>{item.creador} comentó: <Text> {item.comentarios} </Text> </Text>}
+                    renderItem={({ item }) => <Text style={styles.lista}>{item.creador} comentó: <Text> {item.comentario} </Text> </Text>}
                 />
 
             </View>
