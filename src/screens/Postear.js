@@ -86,7 +86,6 @@ class Postear extends Component {
                     }
                 </View>
 
-                {/* <Menu/> */}
             </View>
         )
     }
