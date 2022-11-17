@@ -8,8 +8,8 @@ import Posteo from '../components/Posteo';
 import EdicionPerfil from './EdicionPerfil';
 
 class MiPerfil extends Component {
-    constructor(){
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             usuario: [],
             posteos: [],
@@ -22,7 +22,7 @@ class MiPerfil extends Component {
         db.collection('users').where('owner', '==', auth.currentUser.email).onSnapshot(
             docs => {
                 let info = [];
-                docs.forEach ( doc => {
+                docs.forEach(doc => {
                     info.push({
                         id: doc.id,
                         data: doc.data()
@@ -33,61 +33,77 @@ class MiPerfil extends Component {
                 })
             }
         )
-        console.log(this.state.usuario)
 
         db.collection('posteos').where("creador", "==", auth.currentUser.email).onSnapshot(
             docs => {
                 let posteos = []
-                docs.forEach( doc => {
+                docs.forEach(doc => {
                     posteos.push({
                         data: doc.data(),
-                        id: doc.createdAt
+                        id: doc.id
                     })
                 })
-            this.setState({
-                posteos: posteos
-            })
+                this.setState({
+                    posteos: posteos
+                })
             }
         )
-        console.log(this.state.posteos)
     }
 
-    borrarCuenta(){
-        auth.currentUser.delete()
-            .then( () => {
-                this.props.navigation.navigate("Portada")
-            })
-            .catch(error => 
-                this.setState({
-                error: 'No se ha podido borrar su cuenta. Intente denuevo más tarde'
-            })
-        )
+    borrarCuenta() {
+        confirm('¿Seguro queres borrar tu cuenta?') ?
+            db.collection('users')
+                .doc(auth.currentUser.id)
+                .delete()
+                .then(() => {
+                    auth.currentUser.delete()
+                        .then(() => {
+                            this.props.navigation.navigate('Portada')
+                        })
+                }).catch((error) => {
+                    this.setState({
+                        error: 'No se ha podido borrar su cuenta. Intente denuevo más tarde'
+                    })
+                })
+            :
+            console.log('no se borró')
+
     }
 
-    cerrarSesion(){
+    cerrarSesion() {
         auth.signOut()
         this.props.navigation.navigate("Inicio")
     }
 
-    render(){
-        return(
+    render() {
+        return (
             <View>
-                <Encabezado/>
+                <Encabezado />
                 <View style={styles.container}>
                     <View style={styles.superior}>
                         <View>
-                            <Image
-                                    style = {styles.foto}
-                                    source = {require('../../assets/iconoAzul.png')}
-                                    resizeMode = 'contain'
-                            />
+                            {
+                                this.state.usuario.foto != '' ?
+                                    <Image
+                                        style={styles.foto}
+                                        source={{ uri: this.state.usuario.foto }}
+                                        resizeMode='contain'
+                                    />
+                                    :
+                                    <Image
+                                        style={styles.foto}
+                                        source={require('../../assets/iconoAzul.png')}
+                                        resizeMode='contain'
+                                    />
+
+                            }
                             <Text style={styles.titulo}> {this.state.usuario.userName}</Text>
                         </View>
                         <View>
                             <View>
-                                <Text onPress={() => this.props.navigation.navigate('EdicionPerfil')}  style={styles.opcion}>Editar cuenta</Text>
-                                <Text onPress={ () => this.cerrarSesion()} style={styles.opcion}>Cerrar sesión</Text>
-                                <Text onPress={ () => this.borrarCuenta()} style={styles.opcion}>Borrar cuenta</Text>
+                                <Text onPress={() => this.props.navigation.navigate('EdicionPerfil')} style={styles.opcion}>Editar cuenta</Text>
+                                <Text onPress={() => this.cerrarSesion()} style={styles.opcion}>Cerrar sesión</Text>
+                                <Text onPress={() => this.borrarCuenta()} style={styles.opcion}>Borrar cuenta</Text>
                                 <Text style={styles.error}>{this.state.error}</Text>
                             </View>
 
@@ -102,9 +118,11 @@ class MiPerfil extends Component {
                         <FlatList
                             data={this.state.posteos}
                             keyExtractor={onePost => onePost.data.createdAt.toString()}
-                            renderItem={({ item }) => <Posteo posteoData={item} navigation={this.props.navigation} />}
+                            renderItem={({ item }) =>
+                                <Posteo posteoData={item} navigation={this.props.navigation} />
+                            }
                         />
-                    :
+                        :
                         <Text style={styles.aviso}> Aun no hay publicaciones</Text>
                     }
                 </View>
@@ -120,8 +138,8 @@ const styles = StyleSheet.create({
     },
     superior: {
         backgroundColor: 'rgb(234,252,255)',
-        flexDirection:'row',
-        paddingTop: 40 
+        flexDirection: 'row',
+        paddingTop: 40
     },
     titulo: {
         fontFamily: 'Courier',
@@ -153,7 +171,7 @@ const styles = StyleSheet.create({
         margin: 4,
         paddingLeft: 12
     },
-    foto:{
+    foto: {
         height: 115,
         width: 115,
         marginLeft: 15,

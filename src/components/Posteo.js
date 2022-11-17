@@ -24,7 +24,6 @@ class Posteo extends Component {
     }
 
     like() {
-        console.log(this.props.posteoData.id)
         db.collection('posteos')
             .doc(this.props.posteoData.id)
             .update({
@@ -60,13 +59,31 @@ class Posteo extends Component {
         }
     }
 
+    borrarPosteo() {
+        db.collection('posteos')
+            .doc(this.props.posteoData.id)
+            .delete()
+            .catch(e => console.log(e))
+    }
+
     render() {
         return (
             <View style = {styles.container}>
 
-                <TouchableOpacity onPress={() => this.irAPerfil()}>
-                    <Text style = {styles.usuario}>{this.props.posteoData.data.creador} </Text>
-                </TouchableOpacity>
+                    { this.props.posteoData.data.creador === auth.currentUser.email ?
+                        <View style={styles.borrar}>
+                            <TouchableOpacity onPress={() => this.irAPerfil()}>
+                                <Text style = {styles.usuario}>{this.props.posteoData.data.creador} </Text>
+                            </TouchableOpacity>
+                            <Text onPress={() => this.borrarPosteo()}>
+                                <FontAwesome name="trash-o" size={24} color='rgb(234,252,255)' />
+                            </Text>
+                        </View>
+                        :
+                        <TouchableOpacity onPress={() => this.irAPerfil()}>
+                            <Text style = {styles.usuario}>{this.props.posteoData.data.creador} </Text>
+                        </TouchableOpacity>
+                    }
 
                 <Image
                     style={styles.photo}
@@ -102,7 +119,7 @@ class Posteo extends Component {
                 <FlatList
                     data={this.state.comentarios.slice(0, 4)}
                     keyExtractor={unComentario => unComentario.createdAt.toString()}
-                    renderItem={({ item }) => <Text style={styles.lista}>{item.creador} comentó: <Text> {item.comentarios} </Text> </Text>}
+                    renderItem={({ item }) => <Text style={styles.lista}>{item.creador}: <Text> {item.comentario} </Text> </Text>}
                 />
 
             </View>
@@ -174,6 +191,10 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         textAlign: 'left',
         padding: 8
+    },
+    borrar: {
+        flexDirection: 'row',
+        alignItems: 'center'
     }
 })
 

@@ -6,13 +6,14 @@ import Principal from '../screens/Principal';
 import MiPerfil from '../screens/MiPerfil';
 import Busqueda from '../screens/Busqueda';
 import Postear from '../screens/Postear';
+import Perfil from '../screens/Perfil';
 
 const Tab = createBottomTabNavigator();
 
 function Menu(){
 
     return (
-        <Tab.Navigator screenOptions = {{ tabBarShowLabel: false}}>
+        <Tab.Navigator screenOptions = {{ tabBarShowLabel: false, headerShown: false}}>
             <Tab.Screen 
                 name="Principal" 
                 component={ Principal }  
@@ -24,11 +25,16 @@ function Menu(){
             <Tab.Screen 
                 name="Busqueda" 
                 component={ Busqueda } 
-                options={ {tabBarIcon: () => <AntDesign name="search1" size={24} color="black" /> }}/>
+                options={ 
+                    {tabBarIcon: () => <AntDesign name="search1" size={24} color="black" /> }}/>
             <Tab.Screen 
                 name="Postear" 
                 component={ Postear }
                 options={ {tabBarIcon: () => <Ionicons name="add-circle-outline" size={24} color="black" /> }}/>
+            {/* <Tab.Screen 
+                name="Perfil" 
+                component={ Perfil }
+                options= { }/>                                */}
         </Tab.Navigator>
     )
 

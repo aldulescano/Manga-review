@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import firebase from 'firebase'
 import { db, auth } from "../firebase/config"
 import { Text, View, StyleSheet, TextInput, TouchableOpacity, FlatList } from 'react-native'
-
+import { Ionicons } from '@expo/vector-icons'; 
 
 class Comments extends Component {
     constructor(props) {
@@ -42,6 +42,9 @@ class Comments extends Component {
         return (
             <View style={styles.container}>
                 <View style= {styles.superior}>
+                    <TouchableOpacity onPress={() => this.props.navigation.navigate('Principal')}>
+                        <Ionicons name="chevron-back" size={24} color="black" />
+                    </TouchableOpacity>
                     <Text style= {styles.titulo}>Comentarios</Text>
                 </View>
 
@@ -84,7 +87,9 @@ const styles = StyleSheet.create({
     superior: {
         backgroundColor: 'rgb(94, 171, 194)',
         padding: 10,
-        marginBottom: 15
+        marginBottom: 15,
+        flexDirection: 'row',
+        alignItems: 'center'
     },
     titulo: {
         fontFamily: 'Courier',

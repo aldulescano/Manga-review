@@ -7,7 +7,7 @@ import Encabezado from '../components/Encabezado';
 import Posteo from '../components/Posteo';
 
 class Perfil extends Component {
-    constructor(){
+    constructor() {
         super();
         this.state = {
             usuario: [],
@@ -21,7 +21,7 @@ class Perfil extends Component {
         db.collection('users').where('owner', '==', this.props.route.params.email).onSnapshot(
             docs => {
                 let info = [];
-                docs.forEach ( doc => {
+                docs.forEach(doc => {
                     info.push({
                         id: doc.id,
                         data: doc.data()
@@ -36,31 +36,40 @@ class Perfil extends Component {
         db.collection('posteos').where("creador", "==", this.props.route.params.email).onSnapshot(
             docs => {
                 let posteos = []
-                docs.forEach( doc => {
+                docs.forEach(doc => {
                     posteos.push({
                         data: doc.data(),
                         id: doc.id
                     })
                 })
-            this.setState({
-                posteos: posteos
-            })
+                this.setState({
+                    posteos: posteos
+                })
             }
         )
     }
 
 
-    render(){
-        return(
-            <View>
-                <Encabezado/>
-                <View style={styles.container}>
+    render() {
+        return (
+            <View style={styles.container}>
+                <Encabezado />
                     <View style={styles.superior}>
-                        <Image
-                                style = {styles.foto}
-                                source = {require('../../assets/iconoAzul.png')}
-                                resizeMode = 'contain'
-                        />
+                        {
+                            this.state.usuario.foto != '' ?
+                                <Image
+                                    style={styles.foto}
+                                    source={{ uri: this.state.usuario.foto }}
+                                    resizeMode='contain'
+                                />
+                                :
+                                <Image
+                                    style={styles.foto}
+                                    source={require('../../assets/iconoAzul.png')}
+                                    resizeMode='contain'
+                                />
+
+                        }
                         <View>
                             <Text style={styles.titulo}> {this.state.usuario.userName}</Text>
                             <Text style={styles.biografia}>{this.state.usuario.bio}</Text>
@@ -74,11 +83,9 @@ class Perfil extends Component {
                             keyExtractor={onePost => onePost.data.createdAt.toString()}
                             renderItem={({ item }) => <Posteo posteoData={item} />}
                         />
-                    :
+                        :
                         <Text style={styles.aviso}> Aun no hay publicaciones</Text>
                     }
-                </View>
-
             </View>
         )
     }
@@ -91,8 +98,8 @@ const styles = StyleSheet.create({
     },
     superior: {
         backgroundColor: 'rgb(234,252,255)',
-        flexDirection:'row',
-        paddingTop: 40 
+        flexDirection: 'row',
+        paddingTop: 40
     },
     titulo: {
         fontFamily: 'Courier',
@@ -121,7 +128,7 @@ const styles = StyleSheet.create({
         margin: 4,
         paddingLeft: 12
     },
-    foto:{
+    foto: {
         height: 115,
         width: 115,
         marginLeft: 15,

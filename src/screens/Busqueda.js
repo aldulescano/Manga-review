@@ -12,7 +12,8 @@ class Busqueda extends Component {
         this.state = {    
             input: '',
             usuarios: [],
-            resultados: []
+            resultados: [],
+            buscando: false
         }
     }
 
@@ -37,9 +38,11 @@ class Busqueda extends Component {
         let filtrado = this.state.usuarios.filter((usuario) => usuario.data.userName.toLowerCase().includes(texto.toLowerCase()))
         this.setState({
             resultados: filtrado,
-            input: texto
+            input: texto,
+            buscando: true
         })
     }
+
 
     irAPerfil(item){
         if (item.data.owner === auth.currentUser.email) {
@@ -66,7 +69,7 @@ class Busqueda extends Component {
                 </View>
 
                 {
-                    this.state.resultados.length === 0 ?
+                    this.state.resultados.length === 0 && this.state.buscando === true ?
                     <Text style={styles.aviso}> No hay un usuario que coincida con tu búsqueda</Text>
                     :
                     <FlatList

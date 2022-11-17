@@ -9,27 +9,73 @@ class EdicionPerfil extends Component {
             usuario: '',
             contraseña: '',
             bio: '',
-            errors: ''
+            errors: '',
+            mensaje: ''
         }
     }
 
     actualizarUsuario(){
-        auth.currentUser.updateProfile({
-            userName : this.state.usuario,
-            bio: this.state.bio
-        }).then( () => {
 
-        }).catch( (error) => {
+        {
+            this.state.usuario != '' ?
+                db.collection('users')
+                .doc(auth.currentUser.id)
+                .update({
+                    userName: this.state.usuario
+                })
+                .then( () =>{
+                    this.setState({
+                        mensaje: 'Actualización exitosa'
+                    })
+                })
+                .catch( (error) => {
+                    this.setState({
+                        errors: error
+                    })
+                })
+            :
+            console.log('No se actualizó el usuario')
+            
+        }
 
-        });
+        {
+            this.state.bio != '' ?
+            db.collection('users')
+            .doc(auth.currentUser.id)
+            .update({
+                bio: this.state.bio
+            })
+            .then( () =>{
+                this.setState({
+                    mensaje: 'Actualización exitosa'
+                })
+            })
+            .catch( (error) => {
+                this.setState({
+                    errors: error
+                })
+            })
+            :
+            console.log('No se actualizó la biografía')
+            
+        }
+
+        {
+            this.state.usuario != '' ?
+                auth.currentUser.updatePassword(
+                    this.state.contraseña
+                ).then( () => {
         
-        auth.currentUser.updatePassword(
-            this.state.contraseña
-        ).then( () => {
-
-        }).catch( (error) => {
-
-        });
+                }).catch( (error) => {
+                    this.setState({
+                        errors: error
+                    })
+                })
+            :
+            console.log('No se actualizó la contraseña')
+            
+        }
+        
     }
 
     render(){

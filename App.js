@@ -16,7 +16,7 @@ function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name='Portada' component={Portada} options= { { headerShown : false} }/> 
+        <Stack.Screen name='Portada' component={Portada} options= {{ headerShown : false}}/> 
         <Stack.Screen name='Menu' component={Menu} options= {{ headerShown : false}}/>
         <Stack.Screen name='Registro' component={Registro} options= {{ headerShown : false}}/>
         <Stack.Screen name='Inicio' component={Inicio} options= {{ headerShown : false}}/>

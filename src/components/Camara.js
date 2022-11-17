@@ -68,28 +68,28 @@ class Camara extends Component{
                 this.state.permiso ? 
                 this.state.mostrarCamera ?
                     <View style={styles.cameraBody}>
+                        <TouchableOpacity style={styles.button} onPress={()=>this.Fotografiar()}>
+                            <Text style= {styles.boton}>Sacar foto</Text>
+                        </TouchableOpacity>
                         <Camera
                             style={styles.cameraBody}
                             type = {Camera.Constants.Type.back}
                             ref={metodosCamara => this.metodosCamara = metodosCamara }
                         />
-                        <TouchableOpacity style={styles.button} onPress={()=>this.Fotografiar()}>
-                            <Text style= {styles.boton}>Sacar foto</Text>
-                        </TouchableOpacity>
                     </View>
                 :
                 <View>
-                        <Image 
-                            style={styles.preview}
-                            source={{uri: this.state.urlTemporal}}
-                            resizeMode='cover'
-                        />
                         <TouchableOpacity style={styles.button} onPress={()=>this.cancelar()}>
                             <Text style= {styles.boton}>Cancelar</Text>
                         </TouchableOpacity>
                         <TouchableOpacity style={styles.button} onPress={()=>this.guardar()}>
                             <Text style= {styles.boton}>Aceptar</Text>
                         </TouchableOpacity>
+                        <Image 
+                            style={styles.preview}
+                            source={{uri: this.state.urlTemporal}}
+                            resizeMode='cover'
+                        />
                     </View>
                 
                 :
