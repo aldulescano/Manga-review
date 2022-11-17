@@ -2,11 +2,10 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs'
 
 import { AntDesign, Ionicons } from '@expo/vector-icons'; 
 
-import Principal from '../screens/Principal';
 import MiPerfil from '../screens/MiPerfil';
 import Busqueda from '../screens/Busqueda';
 import Postear from '../screens/Postear';
-import Perfil from '../screens/Perfil';
+import Navegacion from './Navegacion';
 
 const Tab = createBottomTabNavigator();
 
@@ -14,9 +13,10 @@ function Menu(){
 
     return (
         <Tab.Navigator screenOptions = {{ tabBarShowLabel: false, headerShown: false}}>
+
             <Tab.Screen 
-                name="Principal" 
-                component={ Principal }  
+                name="Navegacion" 
+                component={ Navegacion }  
                 options={ {tabBarIcon: () => <AntDesign name="home" size={24} color="black" /> }}/>
             <Tab.Screen 
                 name="MiPerfil" 

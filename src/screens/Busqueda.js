@@ -35,12 +35,21 @@ class Busqueda extends Component {
     }
 
     filtrar(texto){
-        let filtrado = this.state.usuarios.filter((usuario) => usuario.data.userName.toLowerCase().includes(texto.toLowerCase()))
-        this.setState({
-            resultados: filtrado,
-            input: texto,
-            buscando: true
-        })
+        if( texto === '') {
+            this.setState({
+                resultados: [],
+                input: '',
+                buscando: false
+            })
+        }else{
+            let filtrado = this.state.usuarios.filter((usuario) => usuario.data.owner.toLowerCase().includes(texto.toLowerCase()))
+            this.setState({
+                resultados: filtrado,
+                input: texto,
+                buscando: true
+            })
+        } 
+
     }
 
 

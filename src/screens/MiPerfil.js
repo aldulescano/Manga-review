@@ -174,8 +174,7 @@ const styles = StyleSheet.create({
     foto: {
         height: 115,
         width: 115,
-        marginLeft: 15,
-        borderRadius: 60
+        marginLeft: 15
     },
     aviso: {
         fontFamily: 'Courier',

@@ -41,6 +41,7 @@ class Comments extends Component {
         console.log(this.state.comentarios)
         return (
             <View style={styles.container}>
+
                 <View style={styles.inferior}>
                     {this.state.comentarios == 0 ?
 
@@ -76,6 +77,7 @@ class Comments extends Component {
 const styles = StyleSheet.create({
     container: {
         backgroundColor: 'rgb(234,252,255)',
+        flex: 1
     },
     superior: {
         backgroundColor: 'rgb(94, 171, 194)',

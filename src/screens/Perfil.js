@@ -94,7 +94,8 @@ class Perfil extends Component {
 const styles = StyleSheet.create({
     container: {
         backgroundColor: 'rgb(234,252,255)',
-        padding: 20
+        padding: 20,
+        flex: 1
     },
     superior: {
         backgroundColor: 'rgb(234,252,255)',
@@ -103,7 +104,8 @@ const styles = StyleSheet.create({
     },
     titulo: {
         fontFamily: 'Courier',
-        fontSize: 18
+        fontSize: 18,
+        marginLeft: 10
     },
     opcion: {
         backgroundColor: 'rgb(94, 171, 194)',
@@ -131,8 +133,7 @@ const styles = StyleSheet.create({
     foto: {
         height: 115,
         width: 115,
-        marginLeft: 15,
-        borderRadius: 60
+        marginLeft: 15
     },
     aviso: {
         fontFamily: 'Courier',

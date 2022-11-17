@@ -14,7 +14,7 @@ class Principal extends Component {
     }
 
     componentDidMount() {
-        db.collection('posteos').onSnapshot(
+        db.collection('posteos').orderBy('createdAt', 'desc').onSnapshot(
             docs => {
                 let posts = [];
                 docs.forEach(doc => {

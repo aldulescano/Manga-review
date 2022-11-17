@@ -19,7 +19,7 @@ class Camara extends Component{
     componentDidMount(){
       
         Camera.requestCameraPermissionsAsync()
-            .then( () =>   {console.log(auth.currentUser.email); this.setState({
+            .then( () =>   { this.setState({
                 permiso: true
             })})
         
