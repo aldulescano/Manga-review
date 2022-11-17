@@ -41,13 +41,6 @@ class Comments extends Component {
         console.log(this.state.comentarios)
         return (
             <View style={styles.container}>
-                <View style= {styles.superior}>
-                    <TouchableOpacity onPress={() => this.props.navigation.navigate('Principal')}>
-                        <Ionicons name="chevron-back" size={24} color="black" />
-                    </TouchableOpacity>
-                    <Text style= {styles.titulo}>Comentarios</Text>
-                </View>
-
                 <View style={styles.inferior}>
                     {this.state.comentarios == 0 ?
 
@@ -72,7 +65,7 @@ class Comments extends Component {
                         <Text></Text>
                         :
                         <TouchableOpacity onPress={() => this.subirComentario(this.state.comentario)}>
-                            <Text style = {styles.boton}>Subir comentario a este posteo</Text>
+                            <Text style = {styles.boton}>Subir comentario</Text>
                         </TouchableOpacity>
                     }
                 </View>
@@ -90,10 +83,6 @@ const styles = StyleSheet.create({
         marginBottom: 15,
         flexDirection: 'row',
         alignItems: 'center'
-    },
-    titulo: {
-        fontFamily: 'Courier',
-        fontSize: 18
     },
     inferior:{
         backgroundColor: 'rgb(94, 171, 194)',

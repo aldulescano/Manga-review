@@ -20,7 +20,7 @@ function App() {
         <Stack.Screen name='Menu' component={Menu} options= {{ headerShown : false}}/>
         <Stack.Screen name='Registro' component={Registro} options= {{ headerShown : false}}/>
         <Stack.Screen name='Inicio' component={Inicio} options= {{ headerShown : false}}/>
-        <Stack.Screen name='Comments' component={Comments} options= {{ headerShown : false}}/>
+        <Stack.Screen name='Comments' component={Comments}/>
         <Stack.Screen name='EdicionPerfil' component={EdicionPerfil} options= {{ headerShown : false}}/>
         <Stack.Screen name='Perfil' component={Perfil} options= {{ headerShown : false}}/>
       </Stack.Navigator>
