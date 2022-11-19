@@ -60,10 +60,13 @@ class Posteo extends Component {
     }
 
     borrarPosteo() {
+        confirm('¿Seguro queres borrar esta publicación?') ?
         db.collection('posteos')
             .doc(this.props.posteoData.id)
             .delete()
             .catch(e => console.log(e))
+        :
+        console.log('no se borro')
     }
 
     render() {

@@ -31,10 +31,6 @@ function Menu(){
                 name="Postear" 
                 component={ Postear }
                 options={ {tabBarIcon: () => <Ionicons name="add-circle-outline" size={24} color="black" /> }}/>
-            {/* <Tab.Screen 
-                name="Perfil" 
-                component={ Perfil }
-                options= { }/>                                */}
         </Tab.Navigator>
     )
 

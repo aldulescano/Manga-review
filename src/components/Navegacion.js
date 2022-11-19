@@ -5,6 +5,7 @@ import Comments from '../screens/Comments';
 import Perfil from '../screens/Perfil';
 import Principal from '../screens/Principal';
 import Busqueda from '../screens/Busqueda';
+import EdicionPerfil from '../screens/EdicionPerfil';
 
 const Stack = createNativeStackNavigator();
 

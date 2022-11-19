@@ -5,13 +5,13 @@ import { auth, db } from '../firebase/config';
 
 import Encabezado from '../components/Encabezado';
 import Posteo from '../components/Posteo';
-import EdicionPerfil from './EdicionPerfil';
 
 class MiPerfil extends Component {
     constructor(props) {
         super(props);
         this.state = {
             usuario: [],
+            idUsuario: '',
             posteos: [],
             error: ''
         }
@@ -28,7 +28,8 @@ class MiPerfil extends Component {
                         data: doc.data()
                     })
                     this.setState({
-                        usuario: info[0].data
+                        usuario: info[0].data,
+                        idUsuario: info[0].id
                     })
                 })
             }
@@ -101,7 +102,7 @@ class MiPerfil extends Component {
                         </View>
                         <View>
                             <View>
-                                <Text onPress={() => this.props.navigation.navigate('EdicionPerfil')} style={styles.opcion}>Editar cuenta</Text>
+                                <Text onPress={() => this.props.navigation.navigate('EdicionPerfil', { id: this.state.idUsuario })} style={styles.opcion}>Editar cuenta</Text>
                                 <Text onPress={() => this.cerrarSesion()} style={styles.opcion}>Cerrar sesión</Text>
                                 <Text onPress={() => this.borrarCuenta()} style={styles.opcion}>Borrar cuenta</Text>
                                 <Text style={styles.error}>{this.state.error}</Text>
