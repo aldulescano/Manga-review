@@ -15,6 +15,7 @@ function Navegacion() {
         <Stack.Screen name='Principal' component={Principal} options= {{ headerShown : false}}/> 
         <Stack.Screen name='Comments' component={Comments} />
         <Stack.Screen name='Perfil' component={Perfil} options= {{ headerShown : false}}/>
+        <Stack.Screen name='EdicionPerfil' component={EdicionPerfil} options= {{ headerShown : false}}/>
       </Stack.Navigator>
   );
 };

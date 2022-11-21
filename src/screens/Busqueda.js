@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import {Text, View, StyleSheet, TextInput, FlatList } from 'react-native'
 import { AntDesign } from '@expo/vector-icons'; 
 import { db, auth } from '../firebase/config';
-import firebase from 'firebase';
 
 import Encabezado from '../components/Encabezado';
 

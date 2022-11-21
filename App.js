@@ -7,7 +7,6 @@ import Registro from './src/screens/Registro';
 import Inicio from './src/screens/Inicio';
 import Comments from "./src/screens/Comments";
 import Menu from './src/components/Menu';
-import EdicionPerfil from './src/screens/EdicionPerfil';
 import Perfil from './src/screens/Perfil';
 import MiPerfil from './src/screens/MiPerfil';
 
@@ -22,7 +21,6 @@ function App() {
         <Stack.Screen name='Registro' component={Registro} options= {{ headerShown : false}}/>
         <Stack.Screen name='Inicio' component={Inicio} options= {{ headerShown : false}}/>
         <Stack.Screen name='Comments' component={Comments}/>
-        <Stack.Screen name='EdicionPerfil' component={EdicionPerfil} options= {{ headerShown : false}}/>
         <Stack.Screen name='Perfil' component={Perfil} options= {{ headerShown : false}}/>
         <Stack.Screen name='MiPerfil' component={MiPerfil} options= {{ headerShown : false}}/>
       </Stack.Navigator>
